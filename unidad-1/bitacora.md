@@ -225,7 +225,7 @@ function draw() {
 <img width="255" height="92" alt="Unidad1Actividad6" src="https://github.com/user-attachments/assets/3b80fe51-d103-4f03-8121-fb1acae320f6" />
 
 ## Bitácora de aplicación 
-### Actividad 07
+### Actividad 07 🛩️
 ✍️¿Que es una obra generativa?    
 Es aquella q por lo menos una parte es creada por un sistema autonomo. Es un tipo de arte, donde el artista no dibuja linea por linea d eforma manual, si no, que diseña el conjunto de reglas/algoritmos y cede parte del control al pc
 
@@ -430,5 +430,30 @@ function windowResized() {
 
 ## Bitácora de reflexión
 
+### Actividad 08
 
+✍️Diferencia entre random() y noise()    
++ random() genera valores impredecibles, sin relacion entre uno y el otro. Como son numeros independientes visualmente se producen movimientos bruscos
++ noise() genera valores que cambian de forma suve y continua. Siguen siendo numeros impredecibles pero con un cambio gradual que se ve visualmente ordenado
 
+random() lo usaria para generar caos, quiebres o variaciones drasticas, y noise() lo usaria cuando quiero movimientos naturales (viento, agua, etc) y organicos
+
+✍️¿Que es una distribucion de probabilidad?. Caminada aleatoria: distribucion uniforme vs distribucion normal
+Una distribucion de probabilidad es que tan probable es que ocurra ciertos valores dentro de un conjunto de datos, no todos los valores aparecen con la misma frecuencia
++ Distribucion uniforme: Todos los valores tienen la misma probabilidad, por lo que los resultados son parejos y repetitivos
++ Distribucion normal: los valores se concentran en un promedio, por lo q los valores de los extremos aparecen pocas veces. Los resultados son mas organicos y variados
+
+✍️¿Cuál es el papel de la aleatoriedad en el arte generativo?
+En el arte generativo la aleatoriedad es fundamental pq permite que la obra no sea igual a otra y que el sistema pueda tener de alguna forma autonomia. Entre las funciones que cumple esta:
++ Evitar patrones rigidos a traves de una variacion visual
++ Simular comportamientos naturales
+
+✍️Aleatoriedad usada en la actividad 7
+En la obra que realice combine diferentes tipos de aleatoriedad. Hablando de uno en especifico, destaco el del levy flight, hay una probabilidad muy baja de que uno de los aviones se detenga, recargue y haga un salto muy largo y rapido
+
+Considero que fue una eleccion adecuada, ya que destaca entre el movimiento continuo del resto de la obra por ser un momento de sorpresa visual. La mayoria de los aviones se compartan de manera fuida pero de vez en cuando ocurre el evento inesperado lo que atrae la atencion del espectador
+
+✍️¿Qué es una caminata (walk) y qué hace especial al Lévy flight?
+Una caminata en simulacion es un modelo donde hay un objeto que se desplaza paso a paso siguiento ciertas reglas q contienen un grado de aleatoriedad
+
+Una caminata de tipo ley flight se caracterisa porque combina muchos movimientos cortos con unos pocos saltos largos. Genera trayectorias irregulares, asi como se pueden ver en la naturaleza. En mi obra este tipo de caminata la evidencia con los momentos de teleltransportaccion, rompiendo el movimiento continuo del resto de aviones
