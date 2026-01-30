@@ -225,8 +225,210 @@ function draw() {
 <img width="255" height="92" alt="Unidad1Actividad6" src="https://github.com/user-attachments/assets/3b80fe51-d103-4f03-8121-fb1acae320f6" />
 
 ## Bitácora de aplicación 
+### Actividad 07
+✍️¿Que es una obra generativa?    
+Es aquella q por lo menos una parte es creada por un sistema autonomo. Es un tipo de arte, donde el artista no dibuja linea por linea d eforma manual, si no, que diseña el conjunto de reglas/algoritmos y cede parte del control al pc
 
+✍️Mi obra generativa:    
++ Distribucion normal (Gaussiana): La utilizo para definir el tamaño de los aviones y su velocidad maxima. La mayoria tiene un tamaño promedio, pero aparecen algunos mas grandes y lentos, otros mas pequeños y rapidos, de esta forma visualmente no es una poblacon uniforme
+  
++ Perlin noise: Lo aplique para generar el viento, hace que este cambiando de direccion de forma organiza y suave para que los aviones vuelen con naturalidad
+  
++ Levy flight: Lo use para generar unos eventos como de teletransportacion. Hay una probabilidad baja de que un avion se detenga, cargue como energia volviendose rojo, y haga un salto largo y rapido
+
++ Interactividad: Con el mouse al presionarlo se genera un campo de atraccion alterando el viento y atrayendo los aviones hacia el puntero. Ademas el color de los aviones cmabia segun la orientacion de este, si los muevo para la derecha cambian a tonos calidos y si los muevo para la izquierda se vuelven tonos frios
+
+
+```js
+let planes = [];
+let zoff = 0; // vrble del tiempo para el perlin noise y evitar que se estatico
+let flowField = [];
+let resolution = 20; // cuadricula del viento
+let cols, rows; // columnas, filas
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  cols = floor(width / resolution);
+  rows = floor(height / resolution);
+  flowField = new Array(cols * rows); // array para almacenar la direccion del viento
+
+  // CREACION DE AVIONES, DISTRIBUCION NORMAL ------------
+  for (let i = 0; i < 100; i++) {
+    let pSize = randomGaussian(12, 7); // media 12 y desviacion 7
+    pSize = constrain(pSize, 4, 25); // para q no sean ni enanos ni gigantes
+    planes.push(new PaperPlane(pSize));
+  }
+  background(240);
+}
+
+function draw() {
+  background(240, 25); 
+
+  let yoff = 0;
+  for (let y = 0; y < rows; y++) {
+    let xoff = 0;
+    for (let x = 0; x < cols; x++) {
+      let index = x + y * cols;
+      
+      // PERLIN NOISE ------------------------------------
+      let angle = noise(xoff, yoff, zoff) * TWO_PI * 2; // noise() valor entre 0 y 1, se multiplica para generar un angulo de giro
+      let v = p5.Vector.fromAngle(angle); // creacion de flecha con el angulo
+      v.setMag(0.4); // fuerza del viento
+      flowField[index] = v;
+      
+      xoff += 0.1; // pasos del viento, 0.1 para q sea suave
+    }
+    yoff += 0.1;
+  }
+  zoff += 0.005; // al cambiarlo, el viento rota suave en el siguiente frame
+
+  // CICLO DE VIDA DE LOS AVIONES ------------------------
+  for (let plane of planes) { // si no esta saltando, sigue el flujo normal
+    if (!plane.isPreparingJump) {
+      plane.follow(flowField); // sigue el viento
+      if (mouseIsPressed) plane.attract(mouseX, mouseY); // atraccion con el mouse
+    }
+    plane.update(); // calcula nueva posicion
+    plane.edges(); // si se sale de la pantalla aparece por el otro lado
+    plane.show();
+  }
+}
+
+class PaperPlane {
+  constructor(pSize) {
+    this.pos = createVector(random(width), random(height)); // posicion inicial
+    this.prevPos = this.pos.copy(); // copia de la posicion inicial para el origen de la linea roja
+    this.vel = createVector(0, 0); // vo=0
+    this.acc = createVector(0, 0); // fo=0
+    this.pSize = pSize; // tamaño dado por el random gaussian
+    
+    this.maxSpeed = map(pSize, 4, 25, 7, 2); // pequeño, grande, vel pequeño, vel grande
+    
+    // Estados levy:
+    this.isPreparingJump = false;
+    this.jumpTimer = 0; // tiempo faltante para saltar
+    this.justJumped = false;
+  }
+
+  // LEVY  -------------------------------------------------
+  levyLogic() {
+    this.justJumped = false;
+
+    // Probabilidad del 0.3% de que empiece un salto
+    if (!this.isPreparingJump && random(1) < 0.003) {
+      this.isPreparingJump = true;
+      this.jumpTimer = 20; // Se queda quieto por 20 frames
+    }
+
+    if (this.isPreparingJump) {
+      this.vel.mult(0); // Se queda quieto mientras carga
+      this.acc.mult(0);
+      this.jumpTimer--;
+      
+      // TELETRANSPORTACIÓN
+      if (this.jumpTimer <= 0) {
+        this.prevPos = this.pos.copy(); // Guardamos donde estaba justo antes del salto
+        let jump = p5.Vector.random2D().mult(random(60, 120));
+        this.pos.add(jump);
+        this.isPreparingJump = false;
+        this.justJumped = true; // Para dibujar la estela un frame
+      }
+    }
+  }
+  
+// LECTOR DEL VIENTO --------------------------------------
+  follow(vectors) {
+    let x = floor(this.pos.x / resolution);
+    let y = floor(this.pos.y / resolution);
+    let index = constrain(x + y * cols, 0, flowField.length - 1);
+    this.applyForce(vectors[index]); // aplicar la fuerza del viento
+  }
+
+  applyForce(force) {
+    this.acc.add(force); // sumar fuerzas a la aceleracion
+  }
+
+ // ATRACCION MOUSE ------------------------------------
+  attract(mx, my) {
+    let force = p5.Vector.sub(createVector(mx, my), this.pos); // crear flecha del noise hacia el mouse
+    force.setMag(0.7);
+    this.applyForce(force);
+  }
+
+  update() {
+    this.levyLogic(); // Maneja la pausa y el salto
+    
+    if (!this.isPreparingJump) {
+      this.vel.add(this.acc);
+      this.vel.limit(this.maxSpeed); // para no superar tamaño
+      this.pos.add(this.vel);
+      this.acc.mult(0);
+    }
+  }
+
+  // DIBUJO Y ESTETICA ------------------------------------
+  show() {
+    // Efecto de salto (Rojo)
+    if (this.justJumped) {
+      stroke(255, 0, 0, 200); 
+      strokeWeight(2);
+      line(this.prevPos.x, this.prevPos.y, this.pos.x, this.pos.y);
+    }
+
+    push();
+    colorMode(HSB, 360, 100, 100, 100); // Cambiamos temporalmente a modo artistico para que el amarillo sea fácil de sacar
+    translate(this.pos.x, this.pos.y); // Mover el origen al avion
+    rotate(this.vel.heading()); // Rotar segun la dirección del vuelo
+    
+    let thick = map(this.pSize, 4, 25, 0.5, 3); // controlar grosor segun el tamaño del avion
+    strokeWeight(thick);
+    
+    if (this.isPreparingJump) {
+      stroke(0, 100, 100); // Rojo en HSB
+      fill(0, 100, 100, 30);
+    } else {
+      // COLOR SEGÚN DIRECCIÓN:
+      // Si va a la derecha (cos +) es amarillo, a la izquierda (cos -) es azul.
+      let angle = this.vel.heading(); 
+      let hu = map(cos(angle), -1, 1, 200, 45); 
+      stroke(hu, 70, 80, 60); // Color, Saturación, Brillo, Opacidad
+      noFill();
+    }
+    
+    // Forma del avion:
+    beginShape();
+    vertex(this.pSize * 1.5, 0);
+    vertex(-this.pSize, -this.pSize / 2);
+    vertex(-this.pSize / 2, 0);
+    vertex(-this.pSize, this.pSize / 2);
+    endShape(CLOSE);
+    
+    pop();
+    colorMode(RGB, 255); // Volvemos a RGB para no dañar el resto del sketch
+  }
+  
+  // Comportamiento de bordes (Efecto estela)
+  edges() {
+    if (this.pos.x > width) this.pos.x = 0;
+    if (this.pos.x < 0) this.pos.x = width;
+    if (this.pos.y > height) this.pos.y = 0;
+    if (this.pos.y < 0) this.pos.y = height;
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  cols = floor(width / resolution);
+  rows = floor(height / resolution);
+  flowField = new Array(cols * rows);
+}
+```
+
+⭐[Sketch en p5.js](https://editor.p5js.org/VanDiosa/sketches/DjNyb2Obn)
+
+<img width="733" height="364" alt="Unidad1Actividad7" src="https://github.com/user-attachments/assets/5077499f-d7ab-4b76-a74d-fe518d64c34c" />
 
 ## Bitácora de reflexión
+
 
 
