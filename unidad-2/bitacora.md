@@ -26,10 +26,60 @@ Se podria hacer usando cuatro variables pero de este modo solo usamos dos objeto
 📤Tomar uno de los ejemplos de random walks del Capítulo 0 y conviértalo en vectores de uso. Parti del [Example 0.1](https://natureofcode.com/random/#example-01-a-traditional-random-walk)
 
 ❓¿Qué tuviste que hacer para hacer la conversión propuesta?   
-✍️
+✍️ Se debia de reemplazar las variables this.x y this.y por un objeto this.position que fuera creado con createVector(). Luego en step() en lugar de sumar las variables se usa el .add() para asi actualizar la posicion
 
-❓Escribe el código que utilizaste para resolver el ejercicio.   
-✍️
+⭐[Sketch modificado](https://editor.p5js.org/VanDiosa/sketches/QloCyuy-z)   
+```js
+// The Nature of Code
+// Daniel Shiffman
+// http://natureofcode.com
+
+let walker;
+
+function setup() {
+  createCanvas(640, 240);
+  walker = new Walker();
+  background(255);
+}
+
+function draw() {
+  walker.step();
+  walker.show();
+}
+
+class Walker {
+  constructor() {
+    this.position=createVector(width/2, height/2); //sustiuir los componentes por un vector
+  }
+
+  show() {
+    stroke(0);
+    //point(this.x, this.y);
+    point(this.position.x, this.position.y);
+  }
+
+  step() {
+    let stepDirection = createVector(0,0); //Vector para la direccion
+    const choice = floor(random(4));
+    
+    // nuevo if
+    if (choice == 0) {
+      stepDirection.x = 1;
+    } else if (choice == 1) {
+      stepDirection.x = -1;
+    } else if (choice == 2) {
+      stepDirection.y = 1;
+    } else {
+      stepDirection.y = -1;
+    }
+    
+    //suma de los vectores direccion y velocidad
+    this.position.add(stepDirection)
+  }
+}
+
+```
+
 
 ### Actividad 04
 📤Experimentar con el siguiente codigo:
@@ -155,4 +205,5 @@ function drawArrow(base, vec, myColor) {
 
 
 ## Bitácora de reflexión
+
 
