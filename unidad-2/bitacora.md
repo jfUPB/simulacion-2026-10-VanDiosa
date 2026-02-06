@@ -13,10 +13,14 @@
 📤Analizando el ejemplo: [Example 1.2: Bouncing Ball with Vectors](https://natureofcode.com/vectors/#example-12-bouncing-ball-with-vectors)
 
 ❓¿Cómo funciona la suma dos vectores en p5.js?    
-✍️
+✍️ En p5.js los vectores no son simples numeros si no objetos con varios componentes (x, y), por eso mismo no se pueden sumar comun y corriente. Para sumar vectores se usa .add(). Ejemplo:
+
+position.add(velocity) -> Aqui internamente lo que se hace es sumar componente por componente, position.x + velocity.x  & position.y + velocity.y 
+
+Se podria hacer usando cuatro variables pero de este modo solo usamos dos objetos
 
 ❓¿Por qué esta línea position = position + velocity; no funciona?   
-✍️
+✍️En p5.js se usa JavaScript y ese lenguaje el operador + solo sabe sumar numeros o juntar textos. Position y velocity son objetos(vectores), el lenguaje no sabe como mezclarlos entonces va a lanzar errores pq intenta convertirlos en texto, por eso es que usamos el .add()
 
 ### Actividad 03
 📤Tomar uno de los ejemplos de random walks del Capítulo 0 y conviértalo en vectores de uso. Parti del [Example 0.1](https://natureofcode.com/random/#example-01-a-traditional-random-walk)
@@ -151,3 +155,4 @@ function drawArrow(base, vec, myColor) {
 
 
 ## Bitácora de reflexión
+
