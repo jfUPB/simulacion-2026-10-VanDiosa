@@ -105,21 +105,25 @@ function draw() {
     console.log("Only once");
 }
 ```
+⭐[Sketch](https://editor.p5js.org/VanDiosa/sketches/DIB-yaKPT)   
 
 ❓¿Qué resultado esperas obtener en el programa anterior?   
-✍️
+✍️Que el primer console.log muestre (6, 9) y el segundo tmb, pensando que la funcion playingVector recibe una copia y no modifica el vector original
 
 ❓¿Qué resultado obtuviste?   
-✍️
+<img width="389" height="102" alt="image" src="https://github.com/user-attachments/assets/12436436-7b14-4992-b7f9-cd980875a307" />    
+✍️La funcion playingVector si modifico directamente el vector original, lo cual podemos ver en el segundo console.log
 
 ❓Recuerda los conceptos de paso por valor y paso por referencia en programación.   
-✍️
+✍️Paso por valor -> Crea una copia nueva del dato. Se puede cambiar la copia y el original seguiria igual
+
+Paso por referencia -> No se crea una copia, si no que se comparte como una direccion del objeto original, si se edita la direccion el cambio se ve reflejado en el original
 
 ❓¿Qué tipo de paso se está realizando en el código?   
-✍️
+✍️Se realiza un paso por referencia. Al pasar position a la funcion, le estamos dando permiso de entrar y modificar sus coordenadas internas (x,y) directamente en la memoria
 
 ❓¿Qué aprendiste?   
-✍️
+✍️Aprendi que en JavaScript, los vectores son objetos y se manejan por referencia. Si quiero que una funcion use un vector sin alterar el original, debo enviarle una copia usando .copy(), algo asi: playingVector(position.copy());
 
 ### Actividad 05
 📤Explorar el concepto de la clase [p5.Vector](https://p5js.org/reference/p5/p5.Vector/)
@@ -205,5 +209,6 @@ function drawArrow(base, vec, myColor) {
 
 
 ## Bitácora de reflexión
+
 
 
