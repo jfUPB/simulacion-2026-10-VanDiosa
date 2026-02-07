@@ -129,25 +129,32 @@ Paso por referencia -> No se crea una copia, si no que se comparte como una dire
 📤Explorar el concepto de la clase [p5.Vector](https://p5js.org/reference/p5/p5.Vector/)
 
 ❓¿Para qué sirve el método mag()? Nota que hay otro método llamado magSq(). ¿Cuál es la diferencia entre ambos? ¿Cuál es más eficiente?   
-✍️
+✍️mag() -> Calcula la longitud/magnitud del vector usando pitagoras
+magSq() -> Calcula esa misma longitud pero al cuadrado (sin sacar la raiz cuadrada)
+
+La diferencia es q magSq() nos ahorra el calculo de la raiz cuadrada, es mucho mas eficiente puesto que la raiz cuadrada es una operacion matematica costosa
 
 ❓¿Para qué sirve el método normalize()?   
-✍️
+✍️Sirve para convertir cualquier vector en un vector unitario (de magnitud 1) sin cambiar su direccion
 
 ❓Te encuentras con un periodista en la calle y te pregunta ¿Para qué sirve el método dot()? ¿Qué le responderías en un frase?   
-✍️
+✍️Es una forma de medir que tanto se encima o alinean dos vectores, y asi saber si aputan acia el mismo lado, si son perpendiculares o si tienen direcciones opuestas
 
 ❓El método dot() tiene una versión estática y una de instancia. ¿Cuál es la diferencia entre ambas?   
-✍️
+✍️Instancia -> v1.dot(v2) -> Se llama desde un vector ya creado. Devuelve un numero (el producto punto), pero no modifica los valores de v1
+Estatica -> p5.Vector.dot(v1, v2) -> Es una funcion general que recibe dos vectores, los compara y da un resultado sin necesidad de q se llamen el uno al otro
 
 ❓Ahora el mismo periodista curioso de antes te pregunta si le puedes dar una intuición geométrica acerca del producto cruz. Entonces te pregunta ¿Cuál es la interpretación geométrica del producto cruz de dos vectores? Tu respuesta debe incluir qué pasa con la orientación y la magnitud del vector resultante.   
-✍️
+✍️El resultado es un nuevo vector que es perpendicular al plano formado por los dos originales
++ Orientacion: sigue la regla de la mano derecha (determina si el vector va hacia "arriba" o "abajo" del plano)
++ Magnitud: El tamaño del vector resultante es igual al area del paralelogramo que forma los dos vectores originales
 
 ❓¿Para que te puede servir el método dist()?   
-✍️
+✍️Sirve para calcular la distancia en pixeles entre dos puntos representados por vectores
 
 ❓¿Para qué sirven los métodos normalize() y limit()?   
-✍️
+✍️normalize() -> Reduce la fuerza del vector a 1 para estandarizar la direccion
+limit() -> Pone un limite a la magnitud. Si el vector supera el maximo que se le coloca, lo recorta a ese tamaño; si es menor lo deja igual
 
 ### Actividad 06
 📤Modificar el siguiente codigo para generar este resultado:
@@ -209,6 +216,7 @@ function drawArrow(base, vec, myColor) {
 
 
 ## Bitácora de reflexión
+
 
 
 
