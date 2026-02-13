@@ -250,8 +250,132 @@ En el ejemplo ejemplo 1.8 el motion 101 se aplica integrando la clase al flujo p
 + Aceleracion hacia el mouse: el objeto persigue el cursor, me parecio interesante que no se queda quieto sobre el cursor si no q orbita al rededor de el. Da la sensacion de un iman, al ser un movimiento dinamico y como intencionado
 
 ## Bitácora de aplicación   
+### Actividad 09 : Latidos de Oro 💛    
+
+✍️ Concepto de Latidos de Oro
+Latidos de oro explora la estética de la vulnerabilidad y la resiliencia a través de la técnica japonesa del [Kintsugi](https://psicologiaymente.com/cultura/kintsugi-psicologia-de-resiliencia-en-cultura-japonesa). En esta obra, el corazón se presenta como un sistema dinámico formado por hilos de energía que oscilan entre el orden y la entropía (la tendencia natural de un sistema hacia el desorden y la pérdida de estructura).
+
+La obra destaca que la belleza no reside en la perfección inicial, sino en la capacidad de reconstruirse. Al interactuar con ella, el espectador se convierte en un agente del caos; sin embargo, es a través de esa ruptura provocada que el sistema transforma sus hilos rojos en cicatrices de oro. El propósito es recordar que lo recuperado tras una crisis posee un valor superior a lo original
+
+✍️Reglas aplicadas para la aceleracion
+Utilicé el marco Motion 101 (Aceleración → Velocidad → Posición) aplicando tres reglas distintas de manipulación para la aceleración:
+
++ Aceleración Aleatoria (Caos): Al presionar C, las partículas reciben una aceleración basada en vectores aleatorios (p5.Vector.random2D()). Esto genera una dispersión explosiva y elimina el orden inicial
+
++ Aceleración Atractiva (Reconstrucción): Al soltar la tecla, se calcula la aceleración como la diferencia entre la posición actual y la fórmula del corazón. Esto crea una fuerza de retorno que sutura la forma
+  
++ Aceleración por Ruido (Perlin Noise): Para que el corazón no se viera estático, el punto de destino de cada partícula se desplaza constantemente usando noise(). Esto genera un efecto visual de pulsacion biologica, de latido
+
+✍️Interacción y Memoria
+La obra tiene memoria, ya que se uso una interpolación lineal (lerp) para que el oro aparezca progresivamente. Mientras más tiempo se mantenga la tecla (C) presionada, más dorada se vuelve la estructura al reconstruirse. Al soltar la tecla, las partículas buscan de nuevo la posición del mouse mediante una aceleración atractiva. Sin embargo, no se detienen en seco; debido a su velocidad, los fragmentos entran en una órbita constante alrededor del puntero
+
+⭐[Sketch](https://editor.p5js.org/VanDiosa/sketches/ghsjehJwT)   
+```js
+let fragmentos = [];
+let cantidad = 500; // Poblacion de particulas
+let nivelOro = 0; // Contador para el kintsugi, transicion de color
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  colorMode(HSB, 360, 100, 100, 100); // HSB -> tono, saturacion, brillo
+  
+  for (let i = 0; i < cantidad; i++) {
+    fragmentos.push(new Fragmento(i));
+  }
+}
+
+function draw() {
+  background(240, 60, 3, 15); // Fondo con alpha bajo para la estelas de mov
+
+  //-----------------------CAOS, INTERACTIVIDAD TECLADO-----------------------
+  let esCaos = keyIsPressed && (key === 'c' || key === 'C');
+
+  if (esCaos) {
+    nivelOro = lerp(nivelOro, 100, 0.003); // Incremento progresivo del color oro
+  }
+
+  //-----------------------CICLO DE VIDA DE LOS FRAGMENTOS-----------------------
+  for (let f of fragmentos) {
+    f.update(esCaos); // Calcula la logica de aceleracion->velocidad->posicion (Motion 101)
+    f.show(esCaos); // 3. Se dibuja el objeto en su nueva posicion
+  }
+}
+
+class Fragmento {
+  constructor(index) {
+    this.pos = createVector(random(width), random(height)); // Posicion inicial
+    this.vel = p5.Vector.random2D(); // Velocidad aleatoria inicial
+    this.acc = createVector(); // Aceleracion aleatoria inicial
+    this.index = index;
+    this.maxSpeed = 8; // Limite de velocidad
+    
+    //-----------------------COLOR INICIAL-----------------------
+    if (random(1) > 0.07) { // 7%
+      this.miColor = random(340, 360); // 93% -> Rojos
+    } else {
+      this.miColor = random(180, 300); // 7% -> Colores sorpresa
+    }
+  }
+
+  update(caos) {
+    //-----------------------MANIPULACION ACELERACION-----------------------
+    if (caos) {
+      // ACELERACIÓN ALEATORIA: Caos
+      this.acc = p5.Vector.random2D().mult(random(6));
+    } else {
+      // ACELERACIÓN ATRACTIVA: Corazón
+      let t = map(this.index, 0, cantidad, 0, TWO_PI);
+      let x = 16 * pow(sin(t), 3);
+      let y = -(13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t));
+      
+      // PERLIN NOISE: Genera el latido
+      let variacion = noise(frameCount * 0.03, this.index * 0.1) * 15;
+      let target = createVector(x * (14 + variacion/10) + mouseX, y * (14 + variacion/10) + mouseY);
+      
+      // RESTA DE VECTORES: para la atraccion de orbita al mouse
+      let dir = p5.Vector.sub(target, this.pos);
+      dir.setMag(0.9); // Magnitud de la fuerza de atraccion
+      this.acc = dir;
+    }
+
+    //-----------------------APLICACIÓN MOTION 101-----------------------
+    this.vel.add(this.acc); // 1. La aceleracion se suma a la velocidad
+    this.vel.limit(this.maxSpeed); // No superar la vel maxima
+    this.pos.add(this.vel); //2. La velocidad se le suma a la posicion
+    this.vel.mult(0.94); // Friccion de la orbita, moderar el mov
+    this.acc.mult(0); // Reset de aceleracion para el siguiente frame
+  }
+
+  show(caos) {
+    if (caos) {
+      stroke(this.miColor, 90, 100, 100); // Estetica de particulas como chispas
+      strokeWeight(random(1, 2.5));
+    } else {
+      let probOro = map(nivelOro, 0, 100, 2, 80); // LÓGICA KINTSUGI: Probabilidad de volverse oro según nivelOro
+      
+      if (random(100) < probOro) {
+        stroke(48, 80, 100, 90); 
+        strokeWeight(map(nivelOro, 0, 100, 2, 4)); // Oro más grueso
+      } else {
+        stroke(this.miColor, 75, 85, 75); // Color rojo base
+        strokeWeight(2);
+      }
+    }
+    
+    // DIBUJO DE ESTELA: Línea desde posición actual hacia atrás según velocidad
+    line(this.pos.x, this.pos.y, this.pos.x - this.vel.x * 1.6, this.pos.y - this.vel.y * 1.6);
+  }
+}
+```
+
+📸Algunas capturas
+<img width="1919" height="794" alt="Captura de pantalla 2026-02-13 001634" src="https://github.com/user-attachments/assets/b1458e09-f6d0-4350-aabf-7b004bb37d67" />
+<img width="1919" height="796" alt="Captura de pantalla 2026-02-13 001654" src="https://github.com/user-attachments/assets/d7ea8ed5-1000-419a-a828-c54b178c0b49" />
+<img width="1919" height="798" alt="Captura de pantalla 2026-02-13 001724" src="https://github.com/user-attachments/assets/59bb035a-e059-4e5a-b0d8-0e3f5a7c796f" />
+
 
 ## Bitácora de reflexión
+
 
 
 
