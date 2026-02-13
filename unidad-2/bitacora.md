@@ -375,6 +375,20 @@ class Fragmento {
 
 
 ## Bitácora de reflexión
+### Actividad 10
+✍️ Concepto Tormenta de Energía Azul
+
+✍️Reglas aplicadas para la aceleracion   
+
+
+✍️Interacción y Memoria   
+
+⭐[Sketch](https://editor.p5js.org/VanDiosa/sketches/FMq4PSt0A)   
+```js
+
+```
+
+📸Algunas capturas
 
 
 
