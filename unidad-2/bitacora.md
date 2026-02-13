@@ -220,7 +220,7 @@ function drawArrow(base, vec, myColor) {
 ✍️Geometricamente lo que entendi e imagino es q el movimiento se puede construir como una flecha en un mapa. La posicion es el origen de donde sale todo, la velocidad (la linea) es el segmento que dice que tan largo es el paso y hacia donde va, y la aceleracion (la punta o cabeza) es la que dirige y jala el cuerpo hacia la nueva direccion
 
 ❓¿Cómo se aplica motion 101 en el ejemplo?
-✍️Se aplico usando una clase llamda Mover, para que de esta forma el objeto tenga su propio cerebro. Se divide en tres:
+✍️En el ejemplo 1.7 aplico usando una clase llamda Mover, para que de esta forma el objeto tenga su propio cerebro. Se divide en tres:
 + Constructor -> Se crean los tres vectores: position, velocity, aceleration; y se inicializan con valores aleatorios o constantes pequeñas
 + Metodo update() -> aqui ocuree el sistema, cada que el programa se actualiza la aceleracion cambia a la velocidad y la velocidad mueve el punto de posicion
 + Metodo show() -> aqui se toma el vector position y se dibuja el circulo ahi
@@ -233,10 +233,23 @@ this.position.add(this.velocity);     // La velocidad cambia la posición
 ```
 En el metodo show() se dibuja la forma en las coordenadas actuales de: this.position.x y this.position.y
 
-### Actividad 08
-📤
+En el ejemplo ejemplo 1.8 el motion 101 se aplica integrando la clase al flujo principal del programa:
++ En setup() -> nace el objeto y se ejecutan las configuracion del constructor
++ En draw() -> se crea el ciclo del movimiento d ela siguiente forma:
+  1. mover.update(): el objeto ejecuta la logica de aceleracion->velocidad->posicion
+  2. mover.checkEdges(): aqui se aplica una regla extra para el objeto al salir de la pantalla aparezca del otro lado
+  3. mover.show(): se renderiza el resultado final en el lienzo
 
+### Actividad 08
+📤¿Qué observaste cuando usas cada una de las aceleraciones propuestas?   
+✍️ Al experimentar con los tres algoritmos, observe los siguientes comportamientos:    
+
++ Aceleracion Constante: (continuando con el ejemplo del carro) el objeto me parece que se mueve como si su mortor estuviera siempre en la misma direccion, ademas al inicio arranca lento pero luego va ganando como velocidad. Su movimiento fue mecanico y predecible
++ Aceleracion Aleatoria: el objeto se ve como si estuviera nervioso, la aceleracion cambia en cada frame por lo que el objeto cambia de direccion constantemente. Comparandolo con el random walker siento que este se siente un poco mas fluido y natural, ya q la aceleracion cambia gradualmente por lo que se parece al movimiento que haria un insecto
++ Aceleracion hacia el mouse: el objeto persigue el cursor, me parecio interesante que no se queda quieto sobre el cursor si no q orbita al rededor de el. Da la sensacion de un iman, al ser un movimiento dinamico y como intencionado
+  
 ## Bitácora de reflexión
+
 
 
 
