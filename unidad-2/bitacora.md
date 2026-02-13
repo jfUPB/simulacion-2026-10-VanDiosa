@@ -252,12 +252,12 @@ En el ejemplo ejemplo 1.8 el motion 101 se aplica integrando la clase al flujo p
 ## Bitácora de aplicación   
 ### Actividad 09 : Latidos de Oro 💛    
 
-✍️ Concepto de Latidos de Oro
+✍️ Concepto de Latidos de Oro   
 Latidos de oro explora la estética de la vulnerabilidad y la resiliencia a través de la técnica japonesa del [Kintsugi](https://psicologiaymente.com/cultura/kintsugi-psicologia-de-resiliencia-en-cultura-japonesa). En esta obra, el corazón se presenta como un sistema dinámico formado por hilos de energía que oscilan entre el orden y la entropía (la tendencia natural de un sistema hacia el desorden y la pérdida de estructura).
 
 La obra destaca que la belleza no reside en la perfección inicial, sino en la capacidad de reconstruirse. Al interactuar con ella, el espectador se convierte en un agente del caos; sin embargo, es a través de esa ruptura provocada que el sistema transforma sus hilos rojos en cicatrices de oro. El propósito es recordar que lo recuperado tras una crisis posee un valor superior a lo original
 
-✍️Reglas aplicadas para la aceleracion
+✍️Reglas aplicadas para la aceleracion   
 Utilicé el marco Motion 101 (Aceleración → Velocidad → Posición) aplicando tres reglas distintas de manipulación para la aceleración:
 
 + Aceleración Aleatoria (Caos): Al presionar C, las partículas reciben una aceleración basada en vectores aleatorios (p5.Vector.random2D()). Esto genera una dispersión explosiva y elimina el orden inicial
@@ -266,7 +266,7 @@ Utilicé el marco Motion 101 (Aceleración → Velocidad → Posición) aplicand
   
 + Aceleración por Ruido (Perlin Noise): Para que el corazón no se viera estático, el punto de destino de cada partícula se desplaza constantemente usando noise(). Esto genera un efecto visual de pulsacion biologica, de latido
 
-✍️Interacción y Memoria
+✍️Interacción y Memoria   
 La obra tiene memoria, ya que se uso una interpolación lineal (lerp) para que el oro aparezca progresivamente. Mientras más tiempo se mantenga la tecla (C) presionada, más dorada se vuelve la estructura al reconstruirse. Al soltar la tecla, las partículas buscan de nuevo la posición del mouse mediante una aceleración atractiva. Sin embargo, no se detienen en seco; debido a su velocidad, los fragmentos entran en una órbita constante alrededor del puntero
 
 ⭐[Sketch](https://editor.p5js.org/VanDiosa/sketches/ghsjehJwT)   
@@ -375,6 +375,7 @@ class Fragmento {
 
 
 ## Bitácora de reflexión
+
 
 
 
