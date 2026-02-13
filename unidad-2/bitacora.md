@@ -209,13 +209,35 @@ function drawArrow(base, vec, myColor) {
 5. Limpia con push y pop para resetear el lienzo
 
 ### Actividad 07
-📤
+📤Leer la seccion del texto guía llamada [Motion with vectors](https://natureofcode.com/vectors/#motion-with-vectors) (marco de movimiento llamado motion 101) y el [ejemplo 1.7](https://natureofcode.com/vectors/#example-17-motion-101-velocity). Luego, reesponder:
+
+❓¿Cuál es el concepto del marco motion 101 y cómo se interpreta geométricamente?
+✍️Es un sistema de 3 pasos que se repiten:
+1. La aceleracion se suma a la velocidad
+2. La velocidad se le suma a la posicion
+3. Se dibuja el objeto en esa nueva posicion
+
+✍️Geometricamente lo que entendi e imagino es q el movimiento se puede construir como una flecha en un mapa. La posicion es el origen de donde sale todo, la velocidad (la linea) es el segmento que dice que tan largo es el paso y hacia donde va, y la aceleracion (la punta o cabeza) es la que dirige y jala el cuerpo hacia la nueva direccion
+
+❓¿Cómo se aplica motion 101 en el ejemplo?
+✍️Se aplico usando una clase llamda Mover, para que de esta forma el objeto tenga su propio cerebro. Se divide en tres:
++ Constructor -> Se crean los tres vectores: position, velocity, aceleration; y se inicializan con valores aleatorios o constantes pequeñas
++ Metodo update() -> aqui ocuree el sistema, cada que el programa se actualiza la aceleracion cambia a la velocidad y la velocidad mueve el punto de posicion
++ Metodo show() -> aqui se toma el vector position y se dibuja el circulo ahi
+
+Por otro lado en update() ocurre la logica: 
+```js
+this.velocity.add(this.acceleration); // La aceleración cambia la velocidad
+this.velocity.limit(10);              // Evitamos que gane velocidad infinita
+this.position.add(this.velocity);     // La velocidad cambia la posición
+```
+En el metodo show() se dibuja la forma en las coordenadas actuales de: this.position.x y this.position.y
 
 ### Actividad 08
 📤
 
-
 ## Bitácora de reflexión
+
 
 
 
