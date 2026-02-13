@@ -2,12 +2,13 @@
 
 ## Bitácora de proceso de aprendizaje
 
-
-## Bitácora de aplicación 
 ### Actividad 01
 📤Exploración de artistas que usan vectores y movimiento
 
-❓Qué trabajo te gustó más y por qué?    
+❓Qué trabajo te gustó más y por qué?  
+✍️El q mas me llamo la atencion y me gusto fue Legion (2022/2023) de Raven Kwok. Me parecio muy interesante como se uso la tecnologia para convertir el cuerpo humano en un sisteme de particulas vivo. Visualmente me parece muy llamativo como se pudo usar los vectores para generar esa experiencia donde las figuras de los cuerpos interactuan entre si y se deforman
+
+Lo que mas me gusto fue q no es una animacion sin mas, si no que se van capturando las poses reales cada segundo, de esta forma el espectador es parte del sistema
 
 ### Actividad 02
 📤Analizando el ejemplo: [Example 1.2: Bouncing Ball with Vectors](https://natureofcode.com/vectors/#example-12-bouncing-ball-with-vectors)
@@ -247,8 +248,11 @@ En el ejemplo ejemplo 1.8 el motion 101 se aplica integrando la clase al flujo p
 + Aceleracion Constante: (continuando con el ejemplo del carro) el objeto me parece que se mueve como si su mortor estuviera siempre en la misma direccion, ademas al inicio arranca lento pero luego va ganando como velocidad. Su movimiento fue mecanico y predecible
 + Aceleracion Aleatoria: el objeto se ve como si estuviera nervioso, la aceleracion cambia en cada frame por lo que el objeto cambia de direccion constantemente. Comparandolo con el random walker siento que este se siente un poco mas fluido y natural, ya q la aceleracion cambia gradualmente por lo que se parece al movimiento que haria un insecto
 + Aceleracion hacia el mouse: el objeto persigue el cursor, me parecio interesante que no se queda quieto sobre el cursor si no q orbita al rededor de el. Da la sensacion de un iman, al ser un movimiento dinamico y como intencionado
-  
+
+## Bitácora de aplicación   
+
 ## Bitácora de reflexión
+
 
 
 
