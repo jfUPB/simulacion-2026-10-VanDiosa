@@ -375,22 +375,143 @@ class Fragmento {
 
 
 ## Bitácora de reflexión
-### Actividad 10
-✍️ Concepto Tormenta de Energía Azul
+### Actividad 10: Magnetismo Cromático🧲   
+✍️ Concepto de Magnetismo Cromático   
+La obra generativa trata de explorar la identidad individual y la pertencia a un grupo. Esta inspirada en el concepto de Clusters de Jeffrey Ventrella, cada agente posee un color que determina su comportamiento social. Cuando se encuentran en reposo, los agentes muestran atraccion hacia el cursos, pero ante un estimulo se revelan y agrupan por afinidad cromatica buscando refugio en las esquinas
 
-✍️Reglas aplicadas para la aceleracion   
+✍️Interacción      
+La obra no es estática, depende totalmente de la presencia del usuario para evolucionar:
++ El usuario actúa como una fuerza gravitacional. El mouse es un centro de atracción, al hacer click, se activa el "Magnetismo Cromático", el cual fuerza a los agentes a migrar hacia sus esquinas. El uso del espacio actúa como un freno, permitiendo observar los detalles del movimienot
 
++ Inspirado en Jared Tarbell, el lienzo no se borra por completo en cada frame. Al usar una opacidad reducida en el fondo, la aplicación genera una memoria del movimiento
 
-✍️Interacción y Memoria   
-
-⭐[Sketch](https://editor.p5js.org/VanDiosa/sketches/FMq4PSt0A)   
+⭐[Sketch](https://editor.p5js.org/VanDiosa/sketches/eA0mvDqIS)   
 ```js
+let agentes = [];
+let cantidad = 45;
+let gravedadGlobal = false;
 
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  colorMode(HSB, 360, 100, 100, 100); // HSB -> tono, saturacion, brillo
+  background(0);
+  
+  for (let i = 0; i < cantidad; i++) {
+    agentes.push(new Agente());
+  }
+}
+
+function draw() {
+  background(240, 60, 3, 15); 
+
+  fill(0, 0, 100, 60); 
+  noStroke();
+  textSize(14);
+  text("TRIBUS: [CLICK] Cada color a su esquina | [G] Gravedad | [ESPACIO] Freno", 30, 40);
+  
+  //-----------------------CICLO DE LOS AGENTES-----------------------
+  for (let a of agentes) {
+    a.update();
+    a.show();
+  }
+}
+
+function keyPressed() {
+  if (key === 'g' || key === 'G') {
+    gravedadGlobal = !gravedadGlobal;
+  }
+}
+
+class Agente {
+  constructor() { // Inicializacion de Vectores (Motion 101)
+    this.pos = createVector(random(width), random(height));
+    this.vel = p5.Vector.random2D().mult(5);
+    this.acc = createVector();
+    this.maxSpeed = random(8, 15);
+    this.maxForce = 0.8;
+    
+    //-----------------------LOGICA DE CLUSTERS-----------------------
+    let r = random(1);
+    if (r < 0.33) {
+      this.hueBase = 190; // Azul
+      this.esquina = createVector(0, 0); // Arriba Izquierda
+    } else if (r < 0.66) {
+      this.hueBase = 330; // Rosa
+      this.esquina = createVector(width, 0); // Arriba Derecha
+    } else {
+      this.hueBase = 45;  // Naranja
+      this.esquina = createVector(width / 2, height); // Abajo Centro
+    }
+    
+    this.strokeW = random(15, 45); 
+  }
+
+ update() {
+    let fuerza;
+    
+    if (gravedadGlobal) {
+      fuerza = createVector(0, 0.5); // Fuerza constante hacia abajo
+    } else {
+      let mouse = createVector(mouseX, mouseY);
+      
+      if (mouseIsPressed) {
+        // Repulsion al Mouse
+        let irAEsquina = p5.Vector.sub(this.esquina, this.pos);
+        irAEsquina.setMag(2.0); 
+        
+        let huirMouse = p5.Vector.sub(this.pos, mouse);
+        huirMouse.setMag(1.5);
+        
+        fuerza = p5.Vector.add(irAEsquina, huirMouse);
+      } else {
+         // Atraccion al Mouse
+        fuerza = p5.Vector.sub(mouse, this.pos);
+        fuerza.setMag(1.0);
+      }
+    }
+
+    // Freno
+    if (keyIsPressed && key === ' ') {
+      this.vel.mult(0.8); 
+      fuerza.mult(0);
+    }
+
+    //-----------------------APLICACIÓN MOTION 101-----------------------
+    this.acc.add(fuerza);
+    this.vel.add(this.acc);
+    this.vel.limit(this.maxSpeed);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+
+    // Rebote de bordes
+    if (this.pos.x < 0 || this.pos.x > width) this.vel.x *= -1;
+    if (this.pos.y < 0 || this.pos.y > height) this.vel.y *= -1;
+    this.pos.x = constrain(this.pos.x, 0, width);
+    this.pos.y = constrain(this.pos.y, 0, height);
+  }
+
+  show() {
+    let h = map(this.vel.mag(), 0, this.maxSpeed, this.hueBase + 20, this.hueBase - 20); // Color dinamico dependiendo de la vel
+    // Estela de luz
+    stroke(h, 80, 100, 12); 
+    strokeWeight(this.strokeW);
+    line(this.pos.x - this.vel.x, this.pos.y - this.vel.y, this.pos.x, this.pos.y);
+    // Nucleo
+    noStroke();
+    fill(h, 70, 100, 30);
+    circle(this.pos.x, this.pos.y, this.strokeW / 1.8);
+  }
+}
 ```
 
 📸Algunas capturas
-
-
+<img width="1919" height="790" alt="Captura de pantalla 2026-02-13 151444" src="https://github.com/user-attachments/assets/38cd0b2b-2c16-492a-92b8-7e0f460ff86b" />
+Separacion por grupos:
+<img width="1437" height="588" alt="Captura de pantalla 2026-02-13 151251" src="https://github.com/user-attachments/assets/86897817-819f-4610-889d-ae7b6b2e9e93" />
+Gravedad:
+<img width="1449" height="601" alt="Captura de pantalla 2026-02-13 151355" src="https://github.com/user-attachments/assets/71c361f1-df3b-4572-82c2-e318ed9d678d" />
+Freno:
+<img width="1918" height="777" alt="Captura de pantalla 2026-02-13 151549" src="https://github.com/user-attachments/assets/a6bbb4fa-e1f9-4da5-b2c9-9c690d7ab077" />
 
 
 
