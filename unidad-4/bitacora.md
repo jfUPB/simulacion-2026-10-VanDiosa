@@ -293,11 +293,84 @@ Lo que me queda claro es que la función sin() es la herramienta perfecta para c
 
 ⭐[Sketch del ejemplo modificado en clase](https://editor.p5js.org/VanDiosa/sketches/bFGOXlgFj)
 
+### Actividad 07   
+📤Luego de trata de aplicar lo aprendido en la unidad 1 y 3 modificando la [simulacion base](https://editor.p5js.org/natureofcode/sketches/b3HpgJa6F), documentar en la bitacora     
+
+✍️El objetivo de esta actividad era romper la perfeccion de los osciladores basicos integrando aleatoriedad organica y leyes físicas. Por lo que en lugar de usar random() para la amplitud lo cambie por un Perlin Noise y asi generar una secuencia suave, donde los circulos parecen estar vivos
+
+Ademas ya no usa la velocidad angular  de manera fija, si no q en su lugar usa una fuerza que aecta la velocidad a la q giran, el mov deja de ser un loop eifinito y empieza a reaccionar al entorno
+
+El Perlin Noise le da esa imperfección natural que tienen los seres vivos al moverse, y las Fuerzas permiten que el sistema sea dinámico
+
+⭐[Sketch del ejemplo modificado en clase](https://editor.p5js.org/VanDiosa/sketches/bFGOXlgFj)
+
+Cambios en oscillator.js:
+ ```js
+class Oscillator {
+  constructor() {
+    this.angle = createVector();
+    this.angleVelocity = createVector(0, 0);
+    this.angleAcceleration = createVector(0, 0); // Unidad 3: Aceleración
+    this.mass = random(1, 2); // Unidad 3: Masa
+    
+    this.offX = random(1000); // Unidad 1: Offset para Noise
+    this.offY = random(1000);
+  }
+
+  // Unidad 3: Método para aplicar fuerzas
+  applyForce(force) {
+    let f = p5.Vector.div(force, this.mass);
+    this.angleAcceleration.add(f);
+  }
+
+  update() {
+    // Aplicamos la aceleración a la velocidad (Unidad 3)
+    this.angleVelocity.add(this.angleAcceleration);
+    this.angle.add(this.angleVelocity);
+    this.angleVelocity.limit(0.05); // Para que no se vuelva loco
+    this.angleAcceleration.mult(0); // Reset de fuerza
+
+    // Unidad 1: Usar Noise para cambiar la amplitud dinámicamente
+    this.amplitudeX = map(noise(this.offX), 0, 1, 50, width / 2);
+    this.amplitudeY = map(noise(this.offY), 0, 1, 50, height / 2);
+    this.offX += 0.01;
+    this.offY += 0.01;
+  }
+
+  show() {
+    let x = sin(this.angle.x) * this.amplitudeX;
+    let y = sin(this.angle.y) * this.amplitudeY;
+
+    push();
+    translate(width / 2, height / 2);
+    stroke(0, 50); // Un poco de transparencia para ver el rastro
+    line(0, 0, x, y);
+    fill(127, 200);
+    circle(x, y, this.mass * 16); // El tamaño depende de la masa
+    pop();
+  }
+}
+ ```
+Cambioe es sketch.js: 
+ ```js
+function draw() {
+  background(255);
+  let wind = createVector(0.001, 0.001); // Una fuerza pequeña
+
+  for (let osc of oscillators) {
+    osc.applyForce(wind); // Aplicamos fuerza (Unidad 3)
+    osc.update();
+    osc.show();
+  }
+}
+ ```
+
 ## Bitácora de aplicación 
 
 
 
 ## Bitácora de reflexión
+
 
 
 
