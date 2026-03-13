@@ -402,11 +402,11 @@ Lo mas interesante de este ejercicio fue ver que mientras el primer pendulo tien
 
 ## Bitácora de aplicación 
 
-### Actividad 11: Resonancia Pendular 🎼🏮     
+### Actividad 11: Resonancia Pendular 🎼🏮      
 ✍️ Concepto y Narrativa
 La obra representa un "analizador de espectro vivo". La narrativa se basa en la visualizacion fisica del sonido, donde cada frecuencia (bajos, medios y altos) tiene un cuerpo material que reacciona a la musica. No es solo un grafico que sube y baja; son tres pendulos que "sienten" el impacto de las ondas sonoras. Los bajos, al ser mas pesados, mueven un pendulo mas largo y lento, mientras que los agudos mueven uno corto y frenetico. La musica aqui actua como una fuerza externa que rompe el equilibrio de la gravedad
 
-✍️ Aplicación de Unidades (Reglas del Sistema)     
+✍️ Aplicación de Unidades (Reglas del Sistema)      
 + Unidad 1 (Ruido Perlin): Para que la punta del pendulo no fuera un circulo perfecto y rigido, use noise() para generar una pequeña distorsion en la posicion final. Esto hace que el rastro se sienta como una frecuencia vibrando y no como una linea de computadora
 
 + Unidad 2 (Vectores y Motion 101): Implemente el uso de p5.Vector para gestionar el origen y la posicion de los pendulos. El movimiento sigue el ciclo fundamental de Aceleracion → Velocidad → Posicion, aplicado aqui al sistema de angulos para lograr una oscilacion fluida
@@ -555,10 +555,13 @@ function windowResized() {
 ```
 
 📸Algunas capturas
+<img width="898" height="727" alt="Captura de pantalla 2026-03-13 090519" src="https://github.com/user-attachments/assets/04261a31-c3de-4c01-b9e1-77f1773afc8f" />
 
+<img width="898" height="729" alt="Captura de pantalla 2026-03-13 090527" src="https://github.com/user-attachments/assets/ce41c5bc-0396-444b-aa2c-9b0e949407c2" />
 
 
 ## Bitácora de reflexión
+
 
 
 
