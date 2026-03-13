@@ -402,9 +402,22 @@ Lo mas interesante de este ejercicio fue ver que mientras el primer pendulo tien
 
 ## Bitácora de aplicación 
 
+### Actividad 11: Resonancia Pendular 🎼🏮     
+✍️ Concepto y Narrativa
+La obra representa un "analizador de espectro vivo". La narrativa se basa en la visualizacion fisica del sonido, donde cada frecuencia (bajos, medios y altos) tiene un cuerpo material que reacciona a la musica. No es solo un grafico que sube y baja; son tres pendulos que "sienten" el impacto de las ondas sonoras. Los bajos, al ser mas pesados, mueven un pendulo mas largo y lento, mientras que los agudos mueven uno corto y frenetico. La musica aqui actua como una fuerza externa que rompe el equilibrio de la gravedad
+
+✍️ Aplicación de Unidades (Reglas del Sistema)     
++ Unidad 1 (Ruido Perlin): Para que la punta del pendulo no fuera un circulo perfecto y rigido, use noise() para generar una pequeña distorsion en la posicion final. Esto hace que el rastro se sienta como una frecuencia vibrando y no como una linea de computadora
+
++ Unidad 2 (Vectores y Motion 101): Implemente el uso de p5.Vector para gestionar el origen y la posicion de los pendulos. El movimiento sigue el ciclo fundamental de Aceleracion → Velocidad → Posicion, aplicado aqui al sistema de angulos para lograr una oscilacion fluida
+
++ Unidad 3 (Leyes de la Naturaleza): El sistema aplica una acumulacion de fuerzas. Por un lado, la gravedad que intenta restaurar el equilibrio y, por otro, el "empuje" (fuerza externa) de la musica que genera el caos. Ademas, para que los pendulos no se volvieran locos, aplique una fuerza de friccion ($0.992$); esto simula la resistencia del aire, haciendo que la energia se disipe gradualmente si la musica se detiene
+ 
++ Unidad 4 (Péndulos y Coordenadas Polares): Esta es la base de la obra. Utilice un sistema de pendulos donde el movimiento se calcula de forma angular. Aplique la conversion de coordenadas polares a cartesianas para determinar la posicion exacta de la masa en cada frame: $x = r \cdot \sin(\theta)$, $y = r \cdot \cos(\theta)$. Esto permite que los objetos orbiten alrededor de su pivote de forma armonica.
 
 
 ## Bitácora de reflexión
+
 
 
 
