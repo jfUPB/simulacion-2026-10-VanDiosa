@@ -415,8 +415,151 @@ La obra representa un "analizador de espectro vivo". La narrativa se basa en la 
  
 + Unidad 4 (Péndulos y Coordenadas Polares): Esta es la base de la obra. Utilice un sistema de pendulos donde el movimiento se calcula de forma angular. Aplique la conversion de coordenadas polares a cartesianas para determinar la posicion exacta de la masa en cada frame: $x = r \cdot \sin(\theta)$, $y = r \cdot \cos(\theta)$. Esto permite que los objetos orbiten alrededor de su pivote de forma armonica.
 
+⭐[Sketch](https://editor.p5js.org/VanDiosa/sketches/4-YyYDYhg)
+```js
+let track, fft;
+let pBajo, pMedio, pAlto;
+let listo = false;
+
+function preload() {
+  console.log("--- 📥 CARGANDO AUDIO... ---");
+  track = loadSound('track.mp3', 
+    () => { console.log("✅ AUDIO LISTO"); listo = true; }, 
+    () => { console.error("❌ ERROR AL CARGAR"); }
+  );
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(10, 10, 15); 
+  
+  // -----------------ANÁLISIS DE AUDIO-----------------
+  // Extraemos la energía del sonido para usarla como fuerza
+  fft = new p5.FFT(0.8); 
+  
+  let pivoteX = width / 2;
+  let pivoteY = height * 0.1;
+  
+  // -----------------UNIDAD 4: SISTEMA DE PÉNDULOS-----------------
+  // Definimos longitudes distintas para cada frecuencia
+  pBajo = new PenduloLuminoso(pivoteX, pivoteY, height * 0.7, color(100, 50, 255)); 
+  pMedio = new PenduloLuminoso(pivoteX, pivoteY, height * 0.55, color(0, 200, 255));
+  pAlto = new PenduloLuminoso(pivoteX, pivoteY, height * 0.4, color(255, 20, 80));
+}
+
+function draw() {
+  // -----------------MEMORIA DEL TRAZO-----------------
+  // El alpha en 1 permite que el color no se borre rápido y deje rastro
+  background(10, 10, 15, 1); 
+
+  if (track.isPlaying()) {
+    fft.analyze();
+    
+    // -----------------REACCIÓN AL RITMO-----------------
+    // Le pasamos el volumen de cada instrumento a su péndulo
+    pBajo.update(fft.getEnergy("bass"));
+    pBajo.show(fft.getEnergy("bass"));
+
+    pMedio.update(fft.getEnergy("mid"));
+    pMedio.show(fft.getEnergy("mid"));
+
+    pAlto.update(fft.getEnergy("treble"));
+    pAlto.show(fft.getEnergy("treble"));
+  } else if (listo) {
+    fill(255);
+    textAlign(CENTER);
+    text("DALE CLIC PARA SONAR", width/2, height/2);
+  }
+}
+
+class PenduloLuminoso {
+  constructor(x, y, l, colEstela) {
+    this.origen = createVector(x, y); // UNIDAD 2: Punto de anclaje usando vectores
+    this.pos = createVector();
+    
+    // -----------------ESTADO INICIAL DEL MOVIMIENTO-----------------
+    this.angle = PI / 4; 
+    this.angleV = 0; 
+    this.l = l;
+    this.colEstela = colEstela; 
+    
+    // UNIDAD 1: Valor inicial para que el ruido sea distinto en cada uno
+    this.offNoise = random(1000);
+  }
+
+  update(energia) {
+    // --------------------UNIDAD 4: OSCILACIÓN--------------------
+    let g = 0.8; 
+    let angleA = (-g / this.l) * sin(this.angle);
+    
+    // -----------------UNIDAD 3: FUERZA EXTERNA-EMPUJE DEL AUDIO-----------------
+    // La música actúa como una fuerza externa que sacude el péndulo
+    let empuje = map(energia, 0, 255, 0, 0.04);
+    this.angleV += (this.angle > 0) ? -empuje : empuje;
+
+    // -----------------FRENO DE SEGURIDAD-----------------
+    // Evita que el péndulo dé la vuelta completa como un ventilador
+    let limite = PI / 1.4;
+    if (abs(this.angle) > limite) {
+      this.angleV *= 0.5; 
+      this.angle = (this.angle > 0) ? limite : -limite;
+    }
+
+    // -----------------UNIDAD 2: MOTION 101 (A->V->P)-----------------
+    this.angleV += angleA;
+    this.angleV *= 0.992; // UNIDAD 3: RESISTENCIA / FRICCIÓN
+    this.angle += this.angleV;
+
+    // -----------------UNIDAD 4: COORDENADAS POLARES-----------------
+    // Pasamos el ángulo y radio a puntos X y Y para poder dibujarlo
+    let dL = map(energia, 0, 255, 0, 150);
+    this.pos.set((this.l + dL) * sin(this.angle), (this.l + dL) * cos(this.angle));
+    this.pos.add(this.origen);
+
+    // UNIDAD 1: Ruido Perlin para que la punta vibre orgánicamente
+    this.offNoise += 0.02;
+  }
+
+  show(e) {
+    // Brazo del péndulo
+    stroke(255, 30); 
+    strokeWeight(1);
+    let pPure = createVector(this.l * sin(this.angle), this.l * cos(this.angle)).add(this.origen);
+    line(this.origen.x, this.origen.y, pPure.x, pPure.y);
+
+    // -----------------DIBUJO DEL RASTRO-----------------
+    noStroke();
+    let colConAlpha = color(red(this.colEstela), green(this.colEstela), blue(this.colEstela), 15);
+    fill(colConAlpha);
+    let tamEstela = map(e, 0, 255, 10, width * 0.07);
+    circle(this.pos.x, this.pos.y, tamEstela);
+
+    // UNIDAD 4: Masa del péndulo (Bola blanca)
+    fill(255); 
+    let tamCuerpo = map(e, 0, 255, 8, 25); 
+    circle(this.pos.x, this.pos.y, tamCuerpo);
+  }
+}
+
+function mousePressed() {
+  if (track.isPlaying()) {
+    track.pause();
+  } else {
+    track.play();
+  }
+}
+
+function windowResized() { 
+  resizeCanvas(windowWidth, windowHeight); 
+}
+```
+
+📸Algunas capturas
+
+
 
 ## Bitácora de reflexión
+
 
 
 
