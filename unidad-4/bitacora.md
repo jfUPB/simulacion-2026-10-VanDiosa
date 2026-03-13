@@ -365,11 +365,23 @@ function draw() {
 }
  ```
 
+### Actividad 08     
+📤Luego de observar el [codigo base de una onda](https://editor.p5js.org/natureofcode/sketches/CQ19Yw0iT), modificarlo para que se mueva y documentar el proceso
+
+✍️El codigo original dibujaba una onda estatica, para lograr que se desplazara como una ola de mar, tuve que realizar los siguientes cambios:
+
++ Primero el profe nos mostro que debiamos de mover la logica del bucle for del setup() al draw(), ya que, para que algo se mueva necesitamos que se redibuje constantemente
++ Luego cree una vrble llamada startAngle, primero el angulo siempre empezaba en 0 en cada frame, pero ahora en cada frame hay un incremento de esa nueva vrble con una velocidad (waveSpeed), logrando que el primer circulo empiece en una posicion de la onda un poco mas adelante cada vez
++ Finalmente dentro del bucle, se debia usar el let currentAngle = startAngle, para asegurarnos de que toda la fila de circulos se desplace en conjunto
+
+⭐[Sketch del ejemplo modificado en clase](https://editor.p5js.org/VanDiosa/sketches/gd4K32QJx)
+
 ## Bitácora de aplicación 
 
 
 
 ## Bitácora de reflexión
+
 
 
 
