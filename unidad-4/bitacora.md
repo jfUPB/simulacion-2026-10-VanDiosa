@@ -377,7 +377,7 @@ function draw() {
 ⭐[Sketch del ejemplo modificado en clase](https://editor.p5js.org/VanDiosa/sketches/gd4K32QJx)
 
 ### Actividad 09     
-📤Luego de observar el [codigo base de un sistema de resorte](https://editor.p5js.org/natureofcode/sketches/HZOUeCe9p), modificarlo para que se mueva y documentar el proceso
+📤Luego de observar el [codigo base de un sistema de resorte](https://editor.p5js.org/natureofcode/sketches/HZOUeCe9p), modificarlo para que sea un sistema de dos resortes conectados en serie y documentar el proceso
 
 ✍️Se tuvo que crear dos masas y dos resortes. El primer resorte sujetandose del techo, y el segundo anclado a la posicion de la primera masa
 
@@ -387,11 +387,25 @@ Al pasar de uno a dos bobs, tuve que actualizar las funciones mousePressed y mou
 
 ⭐[Sketch del ejemplo modificado en clase](https://editor.p5js.org/VanDiosa/sketches/OwwF-GhsW)
 
+### Actividad 10     
+📤Luego de observar el [codigo base de un sistema de pendulo](https://editor.p5js.org/natureofcode/sketches/MQZWruTlD), modificarlo para que sea un sistema de dos pendulos conectados en serie y documentar el proceso
+
+✍️Aqui se aplicaba una logica parecida a la de los resortes. La idea era q el segundo pendulo reaccionara dinamicamente a la posicion del primero
+
+En el sketch, se tuvo que definir dos instancias/pendulos, el p1 anclado al centro del techo y el 02 con su punto de pivote que cambia en cada frame
+
+En el draw(), se actualiza el pivote usando la posicion de la masa del primero con p2.pivot.set(p1.bob.x, p1.bob.y);, eso crea la conexion fisica y matematica par que sea como un brazo articulado. Al estar conectados, el movimiento se vuelve mucho mas complejo. Aunque cada pendulo calcula su propia aceleracion angular basada en la gravedad, el segundo se ve arrastrado por la inercia del primero
+
+Lo mas interesante de este ejercicio fue ver que mientras el primer pendulo tiene un balanceo predecible, el segundo pendulo adquiere una energia mucho mas erratica porque su base se esta moviendo.
+
+⭐[Sketch del ejemplo modificado](https://editor.p5js.org/VanDiosa/sketches/YkX3-e5CA)
+
 ## Bitácora de aplicación 
 
 
 
 ## Bitácora de reflexión
+
 
 
 
