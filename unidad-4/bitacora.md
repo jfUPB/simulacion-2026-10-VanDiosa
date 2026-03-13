@@ -277,11 +277,28 @@ Ocurre porque al escribir fromAngle(theta, r), le estamos pasando los dos datos 
 
 ⭐[Sketch](https://editor.p5js.org/VanDiosa/sketches/N6O4Qf63K)
 
+### Actividad 06   
+📤Luego de repasar que es una [funcion sinusoide](https://es.wikipedia.org/wiki/Sinusoide), recordar conceptos basicos, y jugar con el [ejemplo](https://editor.p5js.org/juanferfranco/sketches/201gcBvjy)      
+
+✍️En esta actividad, tome el codigo de una función sinusoide y le añadi controles de teclado para ver como cambiaba el movimiento en tiempo real
+
+Lo que aprendi modificando los parametros:
++ Amplitud (Flechas Arriba/Abajo): Es el alcance del movimiento. Al aumentar la amplitud con UP_ARROW, el circulo se aleja mucho mas del centro
+
++ Fase (Flechas Derecha/Izquierda): Es como un viaje en el tiempo. Al tocar las flechas laterales, el circulo negro se desplaza en su ciclo. Esto me permite hacer que los dos circulos empiecen en lugares distintos aunque tengan la misma velocidad
+
++ Periodo (La diferencia entre 120 y 100): Como puse un periodo mas corto al segundo circulo (period2 = 100), este se mueve mas rápido que el primero. Esto hace que se desfasan y se vuelvan a encontrar constantemente
+
+Lo que me queda claro es que la función sin() es la herramienta perfecta para crear ciclos suaves. Al multiplicar el seno por la amplitud, controlo la distancia; y al sumar la fase, controlo el ritmo o el retraso del movimiento
+
+⭐[Sketch del ejemplo modificado en clase](https://editor.p5js.org/VanDiosa/sketches/bFGOXlgFj)
+
 ## Bitácora de aplicación 
 
 
 
 ## Bitácora de reflexión
+
 
 
 
