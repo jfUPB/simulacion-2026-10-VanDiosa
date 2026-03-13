@@ -236,11 +236,53 @@ function mouseReleased() {
 }
  ```
 
+### Actividad 05   
+📤Luego de explorar la simulacion sobre [coordenadas polares](https://editor.p5js.org/juanferfranco/sketches/fE5rCtDS1)     
+
+❓¿Cuál es la relación entre r y theta con las posiciones x y y? Puedes repasar entonces la definición de coordenadas polares y cómo se convierten a coordenadas cartesianas.     
+
+✍️Normalmente usamos coordenadas cartesianas (x, y) para ubicar un punto. Pero en este ejercicio usamos Coordenadas Polares, que definen la posicion mediante un radio (r) y un ángulo ($\theta$)
+
+La relacion matematica es:
+$x = r \cdot \cos(\theta)$
+$y = r \cdot \sin(\theta)$
+
+En el cóodigo, esto permite que el circulo se mueva en una trayectoria circular. Mientras el ángulo ($\theta$) aumenta, las funciones seno y coseno calculan la posicion exacta en el borde de un circulo de radio r
+
+❓Modificacion 1 en la funcion draw()
+ ```js
+function draw() {
+  background(255);
+  // Translate the origin point to the center of the screen
+  translate(width / 2, height / 2);
+  //let v = p5.Vector.fromAngle(theta,r);
+  let v = p5.Vector.fromAngle(theta); //MODIFICACION
+  fill(127);
+  stroke(0);
+  strokeWeight(2);
+  line(0, 0, v.x, v.y);
+  circle(v.x, v.y, r);
+  theta += 0.02;
+  r = height * 0.5*sin(theta);
+}
+ ```
+
+✍️Al hacer este cambio, el circulo se queda atrapado en el centro de la pantalla. La funcion p5.Vector.fromAngle(theta) es muy practica, pero si solo le pasas el ángulo ($\theta$), ella asume que el radio es 1. Como el radio es de apenas 1 píxel, el circulo esta rotando tan cerquita del centro que casi no se nota
+
+❓Modificacion 2
+
+✍️Se ve exactamente igual que cuando usábamos las fórmulas de cos() y sin() manualmente. El círculo vuelve a moverse en un circulo grande y fluido, tal como al principio. La linea se estira desde el centro hasta el circulo y todo se ve equilibrado.
+
+Ocurre porque al escribir fromAngle(theta, r), le estamos pasando los dos datos necesarios: dirección e intensidad. p5.js hace el trabajo pesado por nosotros: toma el ángulo y lo multiplica internamente por el radio (r), dsndonos como resultado las posiciones x y y correctas sin tener que escribir las formulas trigonometricas completas. Es una forma mucho más limpia y eficiente de programar movimiento circular
+
+⭐[Sketch](https://editor.p5js.org/VanDiosa/sketches/N6O4Qf63K)
+
 ## Bitácora de aplicación 
 
 
 
 ## Bitácora de reflexión
+
 
 
 
