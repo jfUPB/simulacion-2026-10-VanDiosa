@@ -57,9 +57,89 @@ Si lo cambiamos a CORNER, el rectangulo deja de girar como una helice centrada y
 
 ✍️La relacion es de orientacion. El vector de velocidad nos dice hacia donde se desplaza el objeto en el plano x, y. Para que el objeto parezca que mira hacia donde va, usamos velocity.heading() para extraer el ángulo de ese vector y se lo pasamos a rotate()
 
+### Actividad 03   
+📤Practicar creando una simulacion de un vehiculo(triangulo) que tenga un frente y se mueva en x con las teclas de flecha. Documentar el proceso de creacion    
+
+✍️Primero se comenzo adaptando el movimiento de que el objeto en lugar de seguir el mouse se use la logica de movimiento con las flechas. Si se presiona la flecha izquierda se aplica una fuerza negativa en X y si se presiona la telca derecha una fuerza positiva. Aqui el triangulo se iria volando sin parar, por lo que era necesario limitar su velocidad, entonces se podria usar una fuerza de friccion en el update para que se sienta un vehiculo con peso: this.vel.mult(0.98)
+
+Luego aprendi que en p5 el ángulo 0 apunta hacia la derecha en el eje x positivo, por lo que el triangulo no podria dibujarse hacia arriba, ya que al aplicarle rotacion se iria de lado. Es por eso que para que el heading funcione el dibujo debe de dibujarse mirando hacia la derecha, para que el triangulo rote correctamente
+
+⭐[Sketch](https://editor.p5js.org/VanDiosa/sketches/oEFacef3i)
+
+```js
+let vehiculo;
+
+function setup() {
+  createCanvas(640, 360);
+  vehiculo = new Vehiculo();
+}
+
+function draw() {
+  background(240);
+
+  if (keyIsDown(LEFT_ARROW)) {
+    let fuerza = createVector(-0.1, 0);
+    vehiculo.applyForce(fuerza);
+  }
+  if (keyIsDown(RIGHT_ARROW)) {
+    let fuerza = createVector(0.1, 0);
+    vehiculo.applyForce(fuerza);
+  }
+
+  vehiculo.update();
+  vehiculo.checkEdges();
+  vehiculo.show();
+}
+
+class Vehiculo {
+  constructor() {
+    this.pos = createVector(width / 2, height / 2);
+    this.vel = createVector(0, 0);
+    this.acc = createVector(0, 0);
+    this.maxSpeed = 5;
+    this.r = 10; // Tamaño del vehículo
+  }
+
+  applyForce(f) {
+    this.acc.add(f);
+  }
+
+  update() {
+    this.vel.add(this.acc);
+    this.vel.limit(this.maxSpeed);
+    this.pos.add(this.vel);
+    this.acc.mult(0); // Motion 101: Reset de aceleración
+    
+    // Friccion para que no deslice infinitamente
+    this.vel.mult(0.98); 
+  }
+
+  show() {
+    let angle = this.vel.heading(); // Calcula el ángulo según la velocidad
+
+    push();
+    translate(this.pos.x, this.pos.y); // Trasladar al centro del objeto
+    rotate(angle); // Rotar según el ángulo de la velocidad
+    
+    // Dibujo del triángulo apuntando a la derecha (eje X positivo)
+    fill(127, 100, 255);
+    stroke(0);
+    strokeWeight(2);
+    triangle(this.r * 2, 0, -this.r, -this.r, -this.r, this.r);
+    pop();
+  }
+
+  checkEdges() {
+    if (this.pos.x > width) this.pos.x = 0;
+    else if (this.pos.x < 0) this.pos.x = width;
+  }
+}
+```
+
 ## Bitácora de aplicación 
 
 
 
 ## Bitácora de reflexión
+
 
