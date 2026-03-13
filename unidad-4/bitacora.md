@@ -376,11 +376,23 @@ function draw() {
 
 ⭐[Sketch del ejemplo modificado en clase](https://editor.p5js.org/VanDiosa/sketches/gd4K32QJx)
 
+### Actividad 09     
+📤Luego de observar el [codigo base de un sistema de resorte](https://editor.p5js.org/natureofcode/sketches/HZOUeCe9p), modificarlo para que se mueva y documentar el proceso
+
+✍️Se tuvo que crear dos masas y dos resortes. El primer resorte sujetandose del techo, y el segundo anclado a la posicion de la primera masa
+
+En el draw(), use spring2.anchor.set(bob1.position.x, bob1.position.y). Esto hace que cuando el primer bob se mueve, el segundo resorte se mueva con el, arrastrando a la segunda masa
+
+Al pasar de uno a dos bobs, tuve que actualizar las funciones mousePressed y mouseReleased para que el código detectara el clic en cualquiera de las dos masas. Si no lo hacía, el programa lanzaba un error de "bob is not defined" orque el objeto original había cambiado de nombre a bob1 y bob2
+
+⭐[Sketch del ejemplo modificado en clase](https://editor.p5js.org/VanDiosa/sketches/OwwF-GhsW)
+
 ## Bitácora de aplicación 
 
 
 
 ## Bitácora de reflexión
+
 
 
 
