@@ -136,10 +136,111 @@ class Vehiculo {
 }
 ```
 
+### Actividad 04   
+📤Luego de analizar la simulacion sobre [Motion 101 con fuerzas](https://editor.p5js.org/juanferfranco/sketches/jebkEAUpR). Responder las preguntas:   
+
+❓¿Qué modificación hay que hacer al motion 101 cuando se quiere agregar fuerzas acumulativas? Trata de recordar por qué es necesario hacer esta modificación   
+
+✍️El marco Motion 101 basico es aceleracion -> velocidad -> posicion. Sin embargo, cuando trabajamos con fuerzas acumulativas, no podemos simplemente igualar la aceleracion a una fuerza (como this.acceleration = force), porque si hay varias fuerzas actuando al tiempo (gravedad, viento, atracción), se borrarian unas a otras
+
+En el codigo se usa this.acceleration.add(f) para ir sumando todos los empujones que recibe el objeto en un solo frame. Al final del update(), es obligatorio usar this.acceleration.mult(0)
+
+❓Identifica dónde está el Attractor en la simulación. Cambia el color de este
+
+✍️El Attractor se encuentra en el sketch.js, se crea en el setup() y se dibuja en el draw(). El Attractor es el objeto central que atrae a los demas. En el archivo attractor.js, dentro del método display(), encontre la logica de color:
+
+```js
+display() {
+    ellipseMode(CENTER);
+    stroke(0);
+    if (this.dragging) {
+      fill(50);
+    } else if (this.rollover) {
+      fill(100);
+    } else {
+      fill(255, 50, 50); // AQUI SE CAMBIA EL COLOR, LO PUSE ROJO
+    }
+    ellipse(this.position.x, this.position.y, this.mass * 2);
+  }
+```
+
+❓Observa que el Attractor tiene dos atributos this.dragging y this.rollover. Estos atributos no se modifican en el código, pero permitirían mover el attractor con el mouse y cambiar su color cuando el mouse está sobre él. ¿Cómo podrías modificar el código para que esto funcione? considera las funciones que ofrece p5.js para interactuar con el mouse
+
+✍️Aunque el código tenia las variables dragging y rollover, no pasaba nada porque el programa no estaba escuchando al mouse. Para arreglarlo se debia hacer lo siguiente:
+
++ Logica cambio de color (Rollover): Use la función dist() para medir que tan lejos esta el mouse del centro del atractor. Si la distancia es menor a la masa (el radio), se activa this.rollover = true y el color cambia para dar feedback visual de que lo estoy señalando
+
++ Logica de arrastre (Dragging): Para poder agarrar el objeto, hay que conectar los eventos del mouse con el atractor en tres pasos:
+1. Use la función mousePressed() para que, justo cuando se hace clic, el programa revise si el mouse esta encima del circulo. Si es asi, se activa un interruptor (this.dragging = true)
+   
+2. Mientras ese interruptor este encendido, se le ordena al atractor que su posición sea igual a la del mouse (this.position = mouseX, mouseY). Asi el objeto se siente pegado al cursor mientras lo arrastro
+
+3. Finalmente, con mouseReleased(), apagamos el interruptor al soltar el botón, dejando el atractor fijo en su nuevo lugar
+
+⭐[Sketch](https://editor.p5js.org/VanDiosa/sketches/l7dIhu_W0)
+
+En el attractor.js:
+```js 
+// Nueva función para detectar si el mouse está encima o si se hizo clic
+  handleMouse(mx, my) {
+    let d = dist(mx, my, this.position.x, this.position.y);
+    // Rollover: si el mouse está cerquita del radio, se activa
+    if (d < this.mass) {
+      this.rollover = true;
+    } else {
+      this.rollover = false;
+    }
+    
+    // Si estamos arrastrando, que la posición siga al mouse
+    if (this.dragging) {
+      this.position.x = mx;
+      this.position.y = my;
+    }
+  }
+
+  // Función para cuando presionamos el mouse
+  handlePress(mx, my) {
+    let d = dist(mx, my, this.position.x, this.position.y);
+    if (d < this.mass) {
+      this.dragging = true;
+    }
+  }
+
+  // Función para cuando soltamos el mouse
+  handleRelease() {
+    this.dragging = false;
+  }
+```
+En el sketch.js: 
+```js 
+function draw() {
+  background(255);
+  attractor.display();
+  attractor.handleMouse(mouseX, mouseY); // Esta linea
+
+  for (let m of movers) {
+    let force = attractor.attract(m);
+    m.applyForce(force);
+    m.update();
+    m.show();
+  }
+}
+
+// Y AÑADE ESTAS DOS FUNCIONES AL FINAL DEL SKETCH
+function mousePressed() {
+  attractor.handlePress(mouseX, mouseY);
+}
+
+function mouseReleased() {
+  attractor.handleRelease();
+}
+ ```
+
 ## Bitácora de aplicación 
 
 
 
 ## Bitácora de reflexión
+
 
 
