@@ -562,7 +562,13 @@ function windowResized() {
 
 ## Bitácora de reflexión
 
++ De la U1 a la U2: El Ruido Perlin le quita la rigidez matematica a los vectores de aceleracion
++ De la U2 a la U3: Los vectores son el recipiente donde se depositan las fuerzas (Friccion, Gravedad, etc.) mediante la 2da Ley de Newton
++ De la U3 a la U4: Las fuerzas aplicadas son las que permiten que el Pendulo salga de su estado de reposo y comience a oscilar
++ Cierre del ciclo: Todo se integra en la Simulacion de Movimiento central para crear un sistema dinamico y reactivo.
 
+❓Con todo lo que has aprendido hasta ahora, te voy a pedir que pienses cómo lo podrías aplicar a tu perfil profesional. ¿En dónde ves oportunidades?    
+✍️Como Ingeniera en Diseño de Entretenimiento Digital enfocada en animación, mi oportunidad seria no animar a mano, sino diseñar comportamientos. Los conocimientos aprendidos en las primeras cuatro unidades me permitiria evolucionar hacia la animacion procedimental: crear sistemas donde el movimiento nace de reglas fisicas y no de fotogramas estaticos
 
 
 
