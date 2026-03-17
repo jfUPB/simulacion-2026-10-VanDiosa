@@ -561,7 +561,8 @@ function windowResized() {
 
 
 ## Bitácora de reflexión
-Diagrama conceptual: https://excalidraw.com/#json=dg2vQwxUvHXu8dr-_Ct2u,FPbsKY2NDUrQileNdcx_qw
+✍️Diagrama conceptual    
+<img width="2606" height="1490" alt="Diagrama Conceptual" src="https://github.com/user-attachments/assets/136f398c-74cd-40ff-b1e5-5f8306218aee" />
 
 + De la U1 a la U2: El Ruido Perlin le quita la rigidez matematica a los vectores de aceleracion
 + De la U2 a la U3: Los vectores son el recipiente donde se depositan las fuerzas (Friccion, Gravedad, etc.) mediante la 2da Ley de Newton
