@@ -42,6 +42,33 @@
 
 
 ### Actividad 02   
+📤Luego de estudiar el  [Example 4.4: A System of Systems](https://natureofcode.com/particles/#example-44-a-system-of-systems), responder:
+
+❓Comparación con Example 4.2:    
++ ¿Qué responsabilidades que antes estaban en draw() ahora están dentro de la clase Emitter?    
+✍️Antes, el draw() tenia que ser el gestor y el creador. Ahora, esas tareas se encuentran en el emitter:
+  + La gestion del array -> El emitter ahora es el dueño de la lista de particulas
+  + El ciclo de limpieza -> El bucle for inverso, encargado de buscar las particulas muertas y eliminarlas con splice(), ahora vive dentro del metodo run() del emitter
+  + Emision -> El método addParticle() se encarga de inyectar nuevos objetos al sistema
+
++ ¿Cuál es la ventaja de encapsular la lógica de emisión en una clase separada?    
+✍️La ventaja principal es el aislamiento de la complejidad. Al mover la logica al Emitter, el programa principal (sketch) ya no necesita conocer los detalles internos de como funciona una particula o como se limpia la memoria, solo interactua con un gerente
+  + Cada emisor puede tener su propia ubicacion, tasa de nacimiento y reglas de vida sin interferir con los demas
+  + Se puede crear miltiples sistemas complejos con una sola linea de codigo, tratando al sistema de particulas como una unidad de nivel superior
+  + Si se quiere cambiar por ejemplo el como mueren las particulas, solo modificas la clase Emitter, y el cambio se aplica automaticamente a todos los sistemas activos en el sketch
+
++ En este ejemplo hay un array de emitters. ¿Quién crea los emitters? ¿Quién crea las partículas dentro de cada emitter?     
+✍️El sketch.js crea los emitters -> Especificamente en la funcion mousePressed(). Cada clic genera un nuevo gerente de particulas en la posicion del mouse
+
+  El Emitter crea las particulas -> Dentro de su propio metodo addParticle(). El sketch ya no sabe como nace una particula, solo sabe que el emisor se encarga
+
++ Dibuja un diagrama que muestre la jerarquía: sketch → [emitters] → [partículas]. ¿Cuántos niveles de “colección” hay?    
+✍️
+
+❓Transferencia conceptual:
++  Describe este ejemplo usando palabras que NO mencionen p5.js, JavaScript, ni ninguna herramienta específica. Usa solo términos como: entidad, estado, colección, emisor, ciclo de vida, fuerza
+✍️
+
 
 ### Actividad 03   
 
