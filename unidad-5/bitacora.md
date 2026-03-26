@@ -66,12 +66,33 @@
 ✍️
 
 ❓Transferencia conceptual:
-+  Describe este ejemplo usando palabras que NO mencionen p5.js, JavaScript, ni ninguna herramienta específica. Usa solo términos como: entidad, estado, colección, emisor, ciclo de vida, fuerza
++  Describe este ejemplo usando palabras que NO mencionen p5.js, JavaScript, ni ninguna herramienta específica. Usa solo términos como: entidad, estado, colección, emisor, ciclo de vida, fuerza   
 ✍️Tenemos una interfaz que reacciona a eventos. Cuando ocurre un evento, se genera un emisor en ese punto en especifico; este emisor es el responsable de gestionar un grupo dinamico de entidades
 
-El emisor gestiona el paso del tiempo para sus entidades... las produce de forma continua, les aplica fuerzas externas, y revisa constantemente su estado vital. Cuando una entidad agota su tiempo de vida, el emisor la saca del grupo para que el sistema no trabaje en vano. Esto permite que varios emisores operen al mismo tiempo, cada uno manejando su propia poblacion de de entidades de forma independiente
+    El emisor gestiona el paso del tiempo para sus entidades... las produce de forma continua, les aplica fuerzas externas, y revisa constantemente su estado vital. Cuando una entidad agota su tiempo de vida, el emisor la saca del grupo para que el sistema no trabaje en vano. Esto permite que varios emisores operen al mismo tiempo, cada uno manejando su propia poblacion de de entidades de forma independiente
 
 ### Actividad 03   
+📤Luego de estudiar el  [Example 4.5: A Particle System with Inheritance and Polymorphism](https://natureofcode.com/particles/#example-45-a-particle-system-with-inheritance-and-polymorphism), responder:
+
+❓¿Qué tienen en común las subclases de partículas? ¿Qué tienen de diferente?    
+✍️En comun -> Todas comparten el estado fisico (posicion, velocidad, aceleracion) y el estado vital (lifespan). Ademas comparten la logida del moviemnto (update, applyForce) y la condicion muerte (isDead)
+
+Diferente -> Lo que cambia es la nueva capa de visualizacion. Mientras que la particula base dibuja un circulo estatico, la subclase confetti sobrescribe el metodo show() para dibujar un cudarado que rota segun su posicion
+
+❓¿Por qué es importante que el Emitter no necesite saber qué tipo específico de partícula está gestionando? Explica esto con tus propias palabras.    
+✍️Es importante porque permite que el sistema se agenerico. El emitter solo sabe que tiene una lista de objetos que saben correr y/o morir. Si el emitter tuviera que preguntar si es un circulo o un confetti aantes de cada accion, el codigo seria gigante y frgil. Al tratar a todas como una simple particula, el codigo se mantiene limpio y funcional sin importar que tan loca sea la apariencia de cada una
+
+❓Si mañana quisieras agregar un tercer tipo de partícula, ¿Qué tendrías que crear y qué NO tendrías que modificar?    
+✍️ Se tendria que crear una nueva clase y definir su propio metodo show(). Tambien un else if en el metodo addParticle() del emitter para que empiece a generarlas
+
+  No se debe modificar el metodo run() del emitter, la logica del sketch.js, ni la clase particle original. En general el sistema de actualizacion y limpieza de memoria seguiria funcionando exactamente igual
+
+❓Compara con Example 4.2: ¿Cambió la lógica del Emitter? ¿Cambió la lógica de muerte? ¿Qué capa del sistema se modificó y cuáles permanecieron intactas?    
+✍️La logica del emitter no cambio, ya que sigue siendo un bucle que recorre un array hacia atras. Solo cambio el omento del nacimienot (addParticle) para aasi poder elegir entre dos tipos
+
+La logica de la muerte tampoco cambio, ya que sin importan que tipo de particula sea, mueren cuando su lifespan es menor a cero
+
+Se modifico la capa de visualizacion al crear el confetti, y ligeramente la capa de estructura para permitir la creacion aleatoria de distintos tipos. La capa de comportamiento fisico y vida, permanecio intacta
 
 ### Actividad 04   
 
