@@ -3,7 +3,7 @@
 ### Actividad 01   
 📤Luego de estudiar el [Example 4.2: An Array of Particles](https://natureofcode.com/particles/#example-42-an-array-of-particles), responder:
 
-❓Capa de comportamiento:
+#### ❓Capa de comportamiento:
 + ¿Qué propiedades tiene cada partícula? Clasifícalas: ¿Cuáles definen su estado físico? ¿Cuáles su estado vital?   
 ✍️Cada particula tiene las siguientes propiedades:
   + Estado fisico -> position, velocity, acceleration. Son los vectorers que definen donde esta y hacia donde va
@@ -15,7 +15,7 @@
 + ¿Cómo se actualiza la partícula en cada frame? Identifica el patrón motion 101 dentro de la partícula   
 ✍️Este patron esta dentro del update(). La aceleracion suma a la velocidad, la velocidad a la posicion, y se usa acceleration.mult(0) para limpiar las fuezas en cada frame
 
-❓Capa de estructura:
+#### ❓Capa de estructura:
 + ¿Quién crea las partículas? ¿En qué momento?    
 ✍️Las particulas se crean en el draw() usando particles.push(new Particle(...)). Esto significa que nace una particula nueva en cada frame
 
@@ -30,7 +30,7 @@
 + Si no eliminaras nunca las partículas, ¿Qué pasaría con la memoria y el rendimiento? Haz el experimento: comenta la línea que elimina y observa el frame rate   
 ✍️Al comentar esta linea: particles.splice(i, 1); el array crece infinitamente. En pocos segundos se tiene muchos objetos en la RAM, la CPU del pc trata de calcular la fisica de particulas q ni se alcanzan a ver, por lo que los FPS caen drasticamente congelando el navegador
 
-❓Capa de visualización:
+#### ❓Capa de visualización:
 + ¿Qué elementos visuales usa para representar una partícula?      
 ✍️En este caso solo se usa un circulo relleno de gris
 
@@ -44,7 +44,7 @@
 ### Actividad 02   
 📤Luego de estudiar el  [Example 4.4: A System of Systems](https://natureofcode.com/particles/#example-44-a-system-of-systems), responder:
 
-❓Comparación con Example 4.2:    
+#### ❓Comparación con Example 4.2:    
 + ¿Qué responsabilidades que antes estaban en draw() ahora están dentro de la clase Emitter?    
 ✍️Antes, el draw() tenia que ser el gestor y el creador. Ahora, esas tareas se encuentran en el emitter:
   + La gestion del array -> El emitter ahora es el dueño de la lista de particulas
@@ -65,7 +65,7 @@
 + Dibuja un diagrama que muestre la jerarquía: sketch → [emitters] → [partículas]. ¿Cuántos niveles de “colección” hay?    
 ✍️
 
-❓Transferencia conceptual:
+#### ❓Transferencia conceptual:
 +  Describe este ejemplo usando palabras que NO mencionen p5.js, JavaScript, ni ninguna herramienta específica. Usa solo términos como: entidad, estado, colección, emisor, ciclo de vida, fuerza   
 ✍️Tenemos una interfaz que reacciona a eventos. Cuando ocurre un evento, se genera un emisor en ese punto en especifico; este emisor es el responsable de gestionar un grupo dinamico de entidades
 
@@ -95,7 +95,7 @@ La logica de la muerte tampoco cambio, ya que sin importan que tipo de particula
 Se modifico la capa de visualizacion al crear el confetti, y ligeramente la capa de estructura para permitir la creacion aleatoria de distintos tipos. La capa de comportamiento fisico y vida, permanecio intacta
 
 ### Actividad 04   
-+ Fuerzas globales vs. locales     
+#### Fuerzas globales vs. locales     
 ❓En Example 4.6, ¿Dónde se define la gravedad? ¿Quién la aplica a las partículas? ¿Es una fuerza global o local?    
   ✍️
   + Se define en el sketch.js, dentro de la funcion draw(), como un vector constante -> let gravity = createVector(0, 0.1);
@@ -104,11 +104,11 @@ Se modifico la capa de visualizacion al crear el confetti, y ligeramente la capa
   
   + Es una fuerza global. Se aplica por igual a todas las entidades del sistema, sin importar su posicion o estado
 
-  ❓En Example 4.7, ¿Qué diferencia hay entre la gravedad y la fuerza del repeller? ¿Dónde “vive” cada una?  
-    ✍️
-    + La gravedad es una fuerza constante y uniforme, que siempre tira hacia abajo con la misma intensidad. El reperller por su parte, genera una fuerza vrble y relativa, cuya direccion y magnitud dependen de donde este la particula respecto al repulsor
-  
-    + La gravedad vive en el entorno sketch.js. La logica del repeller vive dentro del objeto especifico repeller.js
+❓En Example 4.7, ¿Qué diferencia hay entre la gravedad y la fuerza del repeller? ¿Dónde “vive” cada una?  
+  ✍️   
+  + La gravedad es una fuerza constante y uniforme, que siempre tira hacia abajo con la misma intensidad. El reperller por su parte, genera una fuerza vrble y relativa, cuya direccion y magnitud dependen de donde este la particula respecto al repulsor
+    
+  + La gravedad vive en el entorno sketch.js. La logica del repeller vive dentro del objeto especifico repeller.js
   
   ❓La fuerza del repeller depende de la distancia entre la partícula y el repeller. ¿Qué principio físico se está modelando?    
   ✍️La interaccion con el repeller se basa en la proximidad espacial, usando el principio de la inversa del cuadrado: entre mas cerca este la entidad del centro del repulsor, mas intensa sera la fuerza que recibe. Gracias a que el sistema es modular, las entidades solo se encarga de reaccionar a los impulsos recibidos, mientras que el emisor y los objetos externos se encargan de calcular la intensidad de dichos impulsos
@@ -116,7 +116,15 @@ Se modifico la capa de visualizacion al crear el confetti, y ligeramente la capa
   ❓¿Cambió la clase Particle entre Example 4.6 y 4.7? ¿Qué implica esto sobre la separación entre comportamiento de la partícula y fuerzas externas?    
   ✍️No, la clase particle permanecio practicamente identica. En terminos de diseño demuestra una separacion total de responsabilidades. La particula no necesita saber que existe un repeller, ni que hay gravedad, ella solo sabe que tiene un metodo applyForce(f) que recibe algo y lo suma a su aceleracion. Ademas las fuerzas externas se calculan fuera de la particula, manteniendo a la entidad simple y reutilizable
 
-+ Tabla comparativa     
+#### Tabla comparativa     
+| **Aspecto** | **4.2** | **4.4** | **4.5** | **4.6** | **4.7** |
+| --- | --- | --- | --- | --- | --- |
+| **¿Quién crea partículas?** | El `draw()` (Global) | La clase `Emitter` | La clase `Emitter` | La clase `Emitter` | La clase `Emitter` |
+| **¿Hay clase Emitter?** | No | **Sí** | Sí | Sí | Sí |
+| **¿Hay herencia?** | No | No | **Sí** (Confetti) | No | No |
+| **¿Hay fuerzas externas?** | No (solo gravedad interna) | No | No | **Sí** (Gravedad Global) | **Sí** (Gravedad y Repulsión) |
+| **¿Hay interacción entre elementos?** | No | No | No | No | **Sí** (Partícula $\leftrightarrow$ Repeller) |
+| **¿Cómo mueren las partículas?** | Por `lifespan` (tiempo) | Por `lifespan` (tiempo) | Por `lifespan` (tiempo) | Por `lifespan` (tiempo) | Por `lifespan` (tiempo) |
 
 ## Bitácora de aplicación 
 
