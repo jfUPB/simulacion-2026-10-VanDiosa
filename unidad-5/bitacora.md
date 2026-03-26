@@ -95,6 +95,28 @@ La logica de la muerte tampoco cambio, ya que sin importan que tipo de particula
 Se modifico la capa de visualizacion al crear el confetti, y ligeramente la capa de estructura para permitir la creacion aleatoria de distintos tipos. La capa de comportamiento fisico y vida, permanecio intacta
 
 ### Actividad 04   
++ Fuerzas globales vs. locales     
+❓En Example 4.6, ¿Dónde se define la gravedad? ¿Quién la aplica a las partículas? ¿Es una fuerza global o local?    
+  ✍️
+  + Se define en el sketch.js, dentro de la funcion draw(), como un vector constante -> let gravity = createVector(0, 0.1);
+  
+  + El emitter actua como intermediario. El sketch le pasa la fuerza al emisor y el emisor se encarga de recorrer su lista de particulas para aplicarsela (la gravedad) a cada una 
+  
+  + Es una fuerza global. Se aplica por igual a todas las entidades del sistema, sin importar su posicion o estado
+
+  ❓En Example 4.7, ¿Qué diferencia hay entre la gravedad y la fuerza del repeller? ¿Dónde “vive” cada una?  
+    ✍️
+    + La gravedad es una fuerza constante y uniforme, que siempre tira hacia abajo con la misma intensidad. El reperller por su parte, genera una fuerza vrble y relativa, cuya direccion y magnitud dependen de donde este la particula respecto al repulsor
+  
+    + La gravedad vive en el entorno sketch.js. La logica del repeller vive dentro del objeto especifico repeller.js
+  
+  ❓La fuerza del repeller depende de la distancia entre la partícula y el repeller. ¿Qué principio físico se está modelando?    
+  ✍️La interaccion con el repeller se basa en la proximidad espacial, usando el principio de la inversa del cuadrado: entre mas cerca este la entidad del centro del repulsor, mas intensa sera la fuerza que recibe. Gracias a que el sistema es modular, las entidades solo se encarga de reaccionar a los impulsos recibidos, mientras que el emisor y los objetos externos se encargan de calcular la intensidad de dichos impulsos
+
+  ❓¿Cambió la clase Particle entre Example 4.6 y 4.7? ¿Qué implica esto sobre la separación entre comportamiento de la partícula y fuerzas externas?    
+  ✍️No, la clase particle permanecio practicamente identica. En terminos de diseño demuestra una separacion total de responsabilidades. La particula no necesita saber que existe un repeller, ni que hay gravedad, ella solo sabe que tiene un metodo applyForce(f) que recibe algo y lo suma a su aceleracion. Ademas las fuerzas externas se calculan fuera de la particula, manteniendo a la entidad simple y reutilizable
+
++ Tabla comparativa     
 
 ## Bitácora de aplicación 
 
