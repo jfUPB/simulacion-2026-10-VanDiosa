@@ -36,7 +36,21 @@ Siento que lograron que el codigo no se sienta frio, si no por el contario, cali
 Al igual que la pieza anterior, hay un campo de flujo, que en este caso se usa para dibujar los rectangulos variables. La regla clave pienso que es el que el sistema decide aleatoriamente cada cuanto aparece un color dentro de cada linea de flujo. Tmb hay una especie de profunidad como, entonces puede que haya una regla donde los trazos mas gruesos destacan mas que los delgados
 
 ### Actividad 02   
-📤
+📤En base al [capitulo 5 de libro The Nature of Code](https://natureofcode.com/autonomous-agents/), responder:
+
+❓¿Qué es un agente autónomo?    
+Un agente autonomo es un elemento que tiene su propio cerebro. El agente no se deja llevar como una particula comun, si no que tiene la capacidad de observar su entorno, procesa la informacion que adquiere y toma una decision en base a eso de a donde quiere ir
+
+❓¿Qué es una steering force?    
+Se traduce como fuerza de direccion. No es una fuerza que simplemente empuja, si no que es el resultado de una resta de vectores (Steering = Velocidad deseada - Velocidad actual). Tiene la funcion de darle direccion al movimiento actual para alinearse con la musion del agente
+
+
+❓¿En qué se diferencia una steering force de fuerzas como gravedad, viento o fricción?    
+Por un lado las fuerzas externas son vectores que se imponen desde el entorno, son globales y constantes sobre todos los objetos. Y las steering forces, son vectores que se generan internamente en cada agente, ajustan la dinamica segun la intencion que tenga cada uno
+
+❓¿Por qué estas ideas son utiles para diseñar comportamiento visual?   
+Al usar reglas de direccion en lugar de trayectorias fijas, el movimiento resultante no es una linea predecible, si no uno comportamiento que va evolucionando. Facilita el diseño de visuales que se sientan mas organicos, vivos y capaces de responder a estimulos externos
+
 
 ### Actividad 03   
 📤
