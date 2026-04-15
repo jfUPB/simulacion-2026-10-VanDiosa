@@ -44,7 +44,6 @@ Un agente autonomo es un elemento que tiene su propio cerebro. El agente no se d
 ❓¿Qué es una steering force?    
 Se traduce como fuerza de direccion. No es una fuerza que simplemente empuja, si no que es el resultado de una resta de vectores (Steering = Velocidad deseada - Velocidad actual). Tiene la funcion de darle direccion al movimiento actual para alinearse con la musion del agente
 
-
 ❓¿En qué se diferencia una steering force de fuerzas como gravedad, viento o fricción?    
 Por un lado las fuerzas externas son vectores que se imponen desde el entorno, son globales y constantes sobre todos los objetos. Y las steering forces, son vectores que se generan internamente en cada agente, ajustan la dinamica segun la intencion que tenga cada uno
 
@@ -53,7 +52,39 @@ Al usar reglas de direccion en lugar de trayectorias fijas, el movimiento result
 
 
 ### Actividad 03   
-📤
+📤Estudiar la seccion [Flow Fields](https://natureofcode.com/autonomous-agents/#flow-fields) y responder   
+
+❓¿Cómo está construido el campo de flujo?   
+Se construye sobre una rejilla invisible que cubre todo el lienzo, a cada celda se le asigna un angulo de direccion, normalmente usando un perlin noise para que los cambios de direccion sean suaves y no saltos aleatorios
+
+❓¿Qué representa cada celda o vector del campo?   
+Cada celda es como una señal de transito, que contiene un vector unitario que le indica a todo agente que pase por ahi hacia donde debe girar. Es una estructura tipo corriente
+
+❓¿Cómo usa un agente su posición para consultar el campo?   
+El agente toma sus coordenadas, las mapea para saber en que celda se encuentra y lee el vector de esa posicion especifica
+
+❓¿Cómo se convierte el vector consultado en una decisión de movimiento?    
+El vector consultado se convierte en la velocidad deseada del agente. Luego se aplica la formula que se menciono antes: Steering = Velocidad deseada - Velocidad actual, para que el agente gire suavemente hacia esa direccion en lugar de moverse de golpe
+
+✍️Parametros importantes del sistema:
++ Resolucion -> Es el tamaño de cada celda, si la resolucion es alta (hay muchas celdas pequeñas), el flujo es mas detallado; por lo contrario si la resolucion es baja, el movimiento se ve mas rigido
++ MaxSpeed -> Es la velocidad maxima a la que puede ir el agente
++ MaxForce -> Es que tan fuerte puede girar el agente. Si es bajo, el agente tiene una curva de firo amplia; si es alto los agentes reaccionan instantaneamente al flujo
++ Cantidad de agentes -> Define la densidad. Pocos agentes crean lineas solas, miles de agnetes revelan la estructura completa del canva
++ Noise Step (xoff/yoff) -> Define que tan suave o caotico es el cambio de direccion en el espacio
+
+✍️Realiza al menos una modificación y analiza el efecto visual que produce:    
+La modificacion que hice fue en flowfield.js -> let angle = map(noise(xoff, yoff), 0, 1, 0, TWO_PI*4); -> multipliqué el ángulo final por 4. Este genero que los agentes tiendan a dar vueltas en circulos cerrados, ya que se forman unos espirales dentro de las corrientes. Paso de parecer un rio a un sistema de pequeños remolinos interconectados
+
+❓¿Qué tipo de movimiento produce este algoritmo?   
+Produce un movimiento logico pero organico. Se siente que fluye bajo las leyes de la naturaleza (aire, magnetismo, agua...) donde hay orden pero no repeticiones exactas
+
+❓¿Qué sensaciones visuales te sugiere?   
+Sugiere fluidez, serenidad y complejidad. Esta la sensacion de que hay algo invinsible organizando el caos
+
+❓¿En qué tipo de pieza musical imaginas que podría funcionar bien?   
+Lo primero que se me ocurre es musica Lo-fi, ya que los agentes tienen el mismo rimo constante, relajado y repetitivo con variaicones sutiles. Creo q tambien podria funcionar con musica ambiental, donde el sonido no tiene estructuras rigidas si no capas de texturas
+
 
 ### Actividad 04
 📤
