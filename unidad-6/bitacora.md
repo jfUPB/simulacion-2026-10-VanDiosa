@@ -127,7 +127,23 @@ Produce una atmosfera cooperativa y de vida organica. Sentia que observaba un si
 Pienso que funcionaria muy bien con una cancion que tenga una estructura con muchas armonias vocales... Se me ocurre alguna cancion de kpop ya que tienen coreografias donde todos se meuven como un todo pero manteniendo una distancia, o musica clasica con varios violines o instrumentos de cuerda
 
 ### Actividad 05   
-📤
+📤Completa una comparación entre flow fields y flocking    
+
+|  | Flow Fields | Flocking |
+| --- | --- | --- |
+| Tipo de Movimiento | Continuo, fluido y predecible. Sigue una corriente invisible | Colectivo, dinamico y reactivo. Los agentes cambian de rumbo segun sus vecinos |
+| Nivel de Control Visual | Alto. Uno puede diseñar el mapa de vectores, asi que se puede saber por donde pasaran los agentes | Medio. Uno puede definir las reglas, pero es el grupo el que decide su trayectoria final por si solo |
+| Nivel de Emergencia (Cuando el grupo hace algo que no se programo directamente) | Bajo. El patron viene del campo de flujo, no de la interaccion entre agentes | Alto. El patron surge totalmente de como interactua cada agente con los otros |
+| Atmósfera/Sensación | Serenidad, orden natural, calma  | Vida, cooperacion, agilidad, nerviosismo |
+| Relación Musical | Texturas constantes, sonidos ambientales, diseños sonoros de paisajes | Ritmos marcados, percusiones, armonias vocales o instrumentales |
+| Ventajas | Es muy eficiente cuando se quiere llenar el canva con texturas suaves | Crea visuales que se sienten vivas, y reaccionan organicamante |
+| Limitaciones | Puede volverse estatico o aburrido si el campo se queda igual por mucho tiempo | Si hay demasiados agentes, los calculos puden poner lento el pc |
+
+✍️Si quisieras diseñar visuales para una canción contemplativa, agresiva, melancólica o eufórica, ¿Cuál algoritmo usarías en cada caso y por qué?
++ Contemplativa -> Flow Fields. Que el sistema sea fluido gracias al campo de flujo, da la atmosfera de introspeccion. El movmiento suave, sin saltos bruscos considero que puede acompañar silencios y calmas en una cancion asi
++ Agresiva -> Flocking, con una separacion alta y mucha fuerza. Buscaria crear un movimiento erratico y de choque
++ Melancolica -> Flow Fields. Habria que usar corrientes con baja velocidad, para dar la sensacion de deriva, tristeza o nostalgia
++ Euforica -> Flocking, con alta cohesion y alineacion, para que hagan giros rapidos que proyecten como fuerza colectiva y union
 
 ## Bitácora de aplicación 
 
