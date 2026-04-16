@@ -73,7 +73,7 @@ El vector consultado se convierte en la velocidad deseada del agente. Luego se a
 + Cantidad de agentes -> Define la densidad. Pocos agentes crean lineas solas, miles de agnetes revelan la estructura completa del canva
 + Noise Step (xoff/yoff) -> Define que tan suave o caotico es el cambio de direccion en el espacio
 
-✍️Realiza al menos una modificación y analiza el efecto visual que produce:    
+✍️Realiza al menos una [modificación](https://editor.p5js.org/natureofcode/sketches/egribz8WV) y analiza el efecto visual que produce:    
 La modificacion que hice fue en flowfield.js -> let angle = map(noise(xoff, yoff), 0, 1, 0, TWO_PI*4); -> multipliqué el ángulo final por 4. Este genero que los agentes tiendan a dar vueltas en circulos cerrados, ya que se forman unos espirales dentro de las corrientes. Paso de parecer un rio a un sistema de pequeños remolinos interconectados
 
 ❓¿Qué tipo de movimiento produce este algoritmo?   
@@ -87,7 +87,44 @@ Lo primero que se me ocurre es musica Lo-fi, ya que los agentes tienen el mismo 
 
 
 ### Actividad 04
-📤
+📤Estudiar la seccion [Flocking](https://natureofcode.com/autonomous-agents/#flocking) y responder 
+
+✍️Explica con tus palabras las tres reglas básicas:   
++ Separación -> Evita que los agentes choquen entre si. Cada agente mira a sus vecinos y si estan muy cerca, aplican una fuerza hacia el lado opuesto para mantener su espacio personal
++ Alineación -> Esta regla permite que cada agente mire hacia donde se estan moviendo sus vecinos, para luego ajustar su velocidad con el objetivo de apuntar en la misma direccion que los otros
++ Cohesión -> Mantiene unidos a los agentes. Cada uno calcula el centro de masa de sus vecinos (como conjunto) y aplica una fuerza para moverse hacia ese centro, evitando que el grupo se vea disperso
+
+✍️Identifica qué parámetros controlan estas reglas   
++ Pesos -> En boid.js -> sep.mult(), ali.mult() y coh.mult() -> Cada una de las reglas tiene una importancia diferente, por ejemplo la separacion puede PESAR mas que la cohesion, por lo tanto el grupo se veria mas espaciado
++ neighborDistance -> En las funciones align y cohere -> Este valor define que tan lejos un agente puede ver a sus vecinos. Entre mas grande el radio, mas coordinado y masivo el grupo
++ desiredSeparation -> En la regla separate -> Este valor define el tamaño de la burbuja personal de cada agente
++ MaxSpeed y MaxForce -> Definen que tan rapido se mueven y que tan bruscos son sus giros al momento de seguir las reglas
+
+✍️Modifica uno o más pesos del [sistema](https://editor.p5js.org/natureofcode/sketches/IkpBw96Sd) y describe el efecto visual y colectivo    
+En boid.js, cambie los pesos de sep.mult() para tener mucha separacion, y de coh.mult() para tener casi que 0 de cohesion
+
+Antes:
+```js
+    sep.mult(1.5);
+    ali.mult(1.0);
+    coh.mult(1.0);
+```
+Despues:
+```js
+    sep.mult(5.0);
+    ali.mult(1.0);
+    coh.mult(0.1);
+```
+El efecto visual que obtuve fue que el sistema paso de ser un grupo unido a tener agentes que rebotan violentamente entre ellos y evitan formar grupos. Fue un comportamiento disperso y caotico
+
+✍️Describe el comportamiento emergente observado    
+Al probar el codigo original, se puede ver un comportamiento fuido y estable. Se forman grupos que se mueven como si siguieran una mision, en caso de que uno se separa rapidamente busca otro grupo cercano al cual integrarse
+
+❓¿Qué atmósfera visual produce el flocking?    
+Produce una atmosfera cooperativa y de vida organica. Sentia que observaba un sistema natural (de pajaros, peces, insectos...) donde no hay un lider, ya que todos saben que hacer. Da una sensacion de constante movimiento y armonia
+
+❓¿En qué tipo de relación con una canción podría funcionar mejor este algoritmo?    
+Pienso que funcionaria muy bien con una cancion que tenga una estructura con muchas armonias vocales... Se me ocurre alguna cancion de kpop ya que tienen coreografias donde todos se meuven como un todo pero manteniendo una distancia, o musica clasica con varios violines o instrumentos de cuerda
 
 ### Actividad 05   
 📤
