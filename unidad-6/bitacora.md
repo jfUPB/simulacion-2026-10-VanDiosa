@@ -162,7 +162,9 @@ La idea es que la pieza no sea solo un fondo bonito, si no, que tenga coherencia
 <img width="1920" height="1080" alt="Moodboard" src="https://github.com/user-attachments/assets/5a4c2e4b-1ef8-4a68-9d2e-42d4dee8f0dd" />
 
 
-✍️Bocetos
+✍️Boceto    
+<img width="1920" height="1080" alt="Boceto" src="https://github.com/user-attachments/assets/74f832cc-42ca-4502-9160-2e2a8a51a69b" />
+
 
 ✍️Mapa de decisiones
 
@@ -171,16 +173,270 @@ La interaccion no es aleatoria, ya que el usuario dirige el ecosistema
 + El despertar del oceano al darle el click inicial, genera q el sistema cobre vida
 + Con el mouse se actua como una fuerza externa (marea), que altera el flow field. De esta forma se pueden agrupar o dispersar a las medusas segun la intencion de la parte de la cancion que este sonando
 
-✍️Justificación del algoritmo elegido
+✍️Justificación del algoritmo elegido     
+He seleccionado un sistema hibrido de Flow Field Interactuable y Comportamientos de Direccion (Separacion):
 
-✍️Explicación de la relación audio-visual
+Flow Field-Campo de Flujo -> Elegi este algoritmo para representar la corriente invisible de la vida que menciona la cancion. Al ser interactuable, permite que el usuario actue como una fuerza de la naturaleza, obligando a los agentes a fluir en direcciones especificas, lo que refuerza la idea de un destino que se puede navegar pero no ignorar (que es masomenos el mensaje de la cancion)
+
+Regla de Separacion-Flocking -> La quiero utilizar para dar autonomia. En lugar de ser particulas sin vida, las medusas calculan su distancia respecto a las demas. Esto asegura que la composicion visual sea siempre equilibrada y que la estetica no se ensucie por la superposicion caotica de una sobre otra
+
+✍️Explicación de la relación audio-visual    
+El sistema tiene la capcidad de traducir el espectro sonoro de Sea de forma organica mediante el uso de bandas de frecuencia personalizadas, entonces las frecuencias se encargan de las siguientes cosas:
+
++ Bajos: Controlan la expansion de la cabezita de las medusas (tamAnimado). Cuando el bajo suena, la medusa se infla un poco, simulando una pulsacion o un latido o una respiracion
+
++ Medios: Controlan el Brillo (Brightness) y la Saturacion. Cuando las voces de BTS entran en la mezcla, el color de las medusas se vuelve mas vibrante y menos grisaceo
+
++ Altos (Instrumentos agudos y armonicos): Afectan la Bioluminiscencia (shadowBlur) y la transparencia. Los sonidos agudos hacen que las medusas irradien luz 
+
++ Interpolacion Lineal (lerp): Es fundamental para la relacion audio-visual, ya que asegura que los cambios no sean bruscos, sino que se sientan como una respiracion biologica que reacciona y se relaja al ritmo de la melodia
 
 🤖 Evidencia del uso de IA
 
-✍️Código fuente
+✍️Código fuente    
+```js
+// --- BTS - SEA  ---
+let medusas = [];
+let song;       
+let fft;        
+let flowfield; 
+let resolution = 60; 
+let audioIniciado = false;
+let cantMedusas = 40; 
 
-🌟[Sketch](https://editor.p5js.org/VanDiosa/sketches/fFCxRD9qX)
+function preload() {
+  song = loadSound('Sea.mp3'); 
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  // UNIDAD 1: ColorMode HSB para facilitar la bioluminiscencia (Hue, Sat, Brightness)
+  colorMode(HSB, 360, 100, 100, 100); // HBS para mejor iluminacion
+  
+  // -----------------ANÁLISIS DE ENTORNO-----------------
+  flowfield = new FlowField(resolution);
+  fft = new p5.FFT(0.8, 256);
+
+  // -----------------POBLACIÓN INICIAL-----------------
+  for (let i = 0; i < cantMedusas; i++) {
+    // Sintonía: Cada medusa escucha una "rebanada" diferente del espectro musical
+    let banda = floor(map(i, 0, cantMedusas, 10, 190)); 
+    medusas.push(new Medusa(banda));
+  }
+}
+
+function draw() {
+  background(235, 80, 5, 12); 
+
+  if (!audioIniciado) {
+    drawMessage();
+    return;
+  }
+
+  // -----------------ANÁLISIS DE AUDIO-----------------
+  let spectrum = fft.analyze(); 
+  drawFlowVectors();
+  updateFlowField();
+
+  for (let m of medusas) {
+    m.applyForce(m.follow(flowfield)); // Fuerza del campo de flujo
+    m.applyForce(m.separate(medusas)); // Fuerza de separación (evita colisiones)
+    
+    // ---------------- MOTION 101-----------------
+    m.update();
+    m.display(spectrum); 
+  }
+}
+
+class Medusa {
+  constructor(banda) {
+    // Estado físico inicial usando vectores
+    this.pos = createVector(random(width), random(height));
+    this.vel = p5.Vector.random2D();
+    this.acc = createVector(0, 0);
+    this.maxSpeed = random(3, 5); 
+    this.maxForce = 0.3;
+    
+    this.rastroOral = [];
+    this.tamBase = random(30, 60); 
+    this.banda = banda; 
+    this.hBase = random([180, 200, 280, 320]);
+    
+    this.energia = 0;// Energía suavizada para transiciones orgánicas
+  }
+
+  applyForce(f) { this.acc.add(f); }
+
+  follow(ff) {
+    let x = floor(constrain(this.pos.x / ff.resolution, 0, ff.cols - 1));
+    let y = floor(constrain(this.pos.y / ff.resolution, 0, ff.rows - 1));
+    let index = x + y * ff.cols;
+    let desired = ff.field[index].copy().setMag(this.maxSpeed);
+    return p5.Vector.sub(desired, this.vel).limit(this.maxForce);
+  }
+
+  separate(others) {
+    let steer = createVector(0, 0);
+    let count = 0;
+    for (let other of others) {
+      let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
+      if (d > 0 && d < this.tamBase * 2) {
+        steer.add(p5.Vector.sub(this.pos, other.pos).normalize().div(d));
+        count++;
+      }
+    }
+    if (count > 0) steer.div(count);
+    return steer;
+  }
+
+  update() {
+    // -----------------INTEGRACIÓN DE MOVIMIENTO-----------------
+    this.vel.add(this.acc).limit(this.maxSpeed);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+
+    // Gestión del rastro
+    if (frameCount % 4 == 0) this.rastroOral.push(this.pos.copy());
+    if (this.rastroOral.length > 7) this.rastroOral.shift();
+
+    // Bordes infinitos
+    if (this.pos.x < 0) this.pos.x = width;
+    if (this.pos.x > width) this.pos.x = 0;
+    if (this.pos.y < 0) this.pos.y = height;
+    if (this.pos.y > height) this.pos.y = 0;
+  }
+
+  display(spectrum) {
+    // -----------------REACTIVIDAD AL RITMO-----------------
+    let nivelBanda = spectrum[this.banda];
+    let targetEnergia = (nivelBanda > 105) ? map(nivelBanda, 105, 255, 0, 1) : 0;
+    
+    // Interpolación para que la reacción sea fluida y no brusca
+    let ratio = (targetEnergia > this.energia) ? 0.2 : 0.05;
+    this.energia = lerp(this.energia, targetEnergia, ratio);
+    
+    // Variables visuales derivadas de la música
+    let tamAnimado = this.tamBase * (1 + (this.energia * 0.5));
+    let sat = map(this.energia, 0, 1, 5, 95);
+    let bri = map(this.energia, 0, 1, 15, 100);
+    let alpha = map(this.energia, 0, 1, 5, 90); 
+
+    // -----------------EFECTO BIOLUMINISCENTE-----------------
+    drawingContext.shadowBlur = this.energia * 50;
+    drawingContext.shadowColor = color(this.hBase, sat, bri, alpha);
+
+    push();
+    noFill();
+
+    // DIBUJO DEL RASTRO
+    for (let i = 0; i < this.rastroOral.length - 1; i++) {
+      let p = this.rastroOral[i];
+      stroke(this.hBase, sat, bri, map(i, 0, this.rastroOral.length, 0, alpha));
+      strokeWeight(map(i, 0, this.rastroOral.length, tamAnimado * 0.4, 1));
+      point(p.x, p.y);
+    }
+
+    // TENTÁCULOS (Oscilación con Seno)
+    translate(this.pos.x, this.pos.y);
+    rotate(this.vel.heading() + PI / 2);
+    stroke((this.hBase + 25) % 360, sat * 0.7, bri, alpha * 0.5);
+    strokeWeight(1);
+
+    for (let t = 0; t < 6; t++) {
+      let xOff = map(t, 0, 5, -tamAnimado * 0.7, tamAnimado * 0.7);
+      beginShape();
+      for (let j = 0; j < 8; j++) {
+        let osc = sin(frameCount * 0.05 + j) * (10 * this.energia);
+        let x = xOff + osc;
+        let y = j * (tamAnimado * 0.4);
+        curveVertex(x, y);
+      }
+      endShape();
+    }
+
+    // CABEZA
+    fill(this.hBase, sat, bri, alpha * 0.4);
+    stroke(this.hBase, sat, bri, alpha);
+    strokeWeight(2);
+    beginShape();
+    for (let a = 0; a <= PI; a += 0.2) {
+      let x = cos(a) * tamAnimado; // Coordenadas polares para generar la campana
+      let y = sin(a) * tamAnimado * 0.7;
+      vertex(x, -y);
+    }
+    endShape(CLOSE);
+    pop();
+
+    drawingContext.shadowBlur = 0; // Limpieza del buffer de sombra
+  }
+}
+
+// --- CAMPO DE FLUJO ---
+
+class FlowField {
+  constructor(r) {
+    this.resolution = r;
+    this.cols = floor(width / r) + 1;
+    this.rows = floor(height / r) + 1;
+    this.field = new Array(this.cols * this.rows);
+    // Inicialización de vectores (Corriente marina)
+    for (let i = 0; i < this.field.length; i++) this.field[i] = createVector(1, 0);
+  }
+}
+
+function drawFlowVectors() {
+  let res = flowfield.resolution;
+  stroke(200, 50, 100, 2);
+  for (let i = 0; i < flowfield.cols; i++) {
+    for (let j = 0; j < flowfield.rows; j++) {
+      let v = flowfield.field[i + j * flowfield.cols];
+      push(); translate(i * res + res/2, j * res + res/2);
+      rotate(v.heading()); line(0, 0, res * 0.2, 0); pop();
+    }
+  }
+}
+
+function updateFlowField() {
+  if (mouseIsPressed) { // Interacción Mouse-Fuerza
+    let res = flowfield.resolution;
+    let mouseV = createVector(mouseX - pmouseX, mouseY - pmouseY);
+    if (mouseV.mag() > 0.1) {
+      mouseV.normalize();
+      for (let i = 0; i < flowfield.cols; i++) {
+        for (let j = 0; j < flowfield.rows; j++) {
+          if (dist(mouseX, mouseY, i * res, j * res) < 150) {
+            flowfield.field[i + j * flowfield.cols].lerp(mouseV, 0.3);
+          }
+        }
+      }
+    }
+  }
+}
+
+function mousePressed() {
+  if (!audioIniciado) {
+    userStartAudio();
+    song.loop();
+    audioIniciado = true;
+  }
+}
+
+function drawMessage() {
+  fill(0, 0, 100);
+  noStroke();
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text("BTS - SEA\nHaz clic para despertar el océano", width / 2, height / 2);
+}
+```
+
+🌟[Sketch](https://editor.p5js.org/VanDiosa/sketches/fFCxRD9qX)    
 🌟[Pantalla Completa](https://editor.p5js.org/VanDiosa/full/fFCxRD9qX)
 
-📸Capturas
+📸Capturas     
+<img width="1919" height="791" alt="Captura de pantalla 2026-04-17 085653" src="https://github.com/user-attachments/assets/54960177-87de-4b0b-a733-8d98c0a87c6f" />
+
+<img width="1918" height="801" alt="Captura de pantalla 2026-04-17 085745" src="https://github.com/user-attachments/assets/3cce60ee-d9ee-4e3b-abe1-384bd110293f" />
+
+
 ## Bitácora de reflexión
