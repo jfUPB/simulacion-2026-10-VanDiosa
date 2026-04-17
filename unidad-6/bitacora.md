@@ -166,7 +166,18 @@ La idea es que la pieza no sea solo un fondo bonito, si no, que tenga coherencia
 <img width="1920" height="1080" alt="Boceto" src="https://github.com/user-attachments/assets/74f832cc-42ca-4502-9160-2e2a8a51a69b" />
 
 
-✍️Mapa de decisiones
+✍️Mapa de decisiones     
+Trate de que cada decision tuviera como un motivo en la narrativa de la cancion:
+
++ Atmosfera abisal (Fondo): Decidi usar un tono azul profundo (HSB 235, 80, 5) con un nivel de transparencia bajo (12) en el fondo. Esto genera una estela o "memoria" del movimiento, simulando la densidad y la presion del agua en lo profundo del oceano
+
++ Anatomia de cristal: El objetivo es evocar la fragilidad de las medusas, representando la vulnerabilidad de la que habla la letra
+
++ Identidad propia (Separacion): Implementando un algoritmo de Separacion para asegurar que cada medusa mantenga su espacio. Esta decision busca que cada agente sea percibido como un individuo autonomo que no se pierde en la masa, incluso cuando son arrastrados por la misma corriente
+
++ Bioluminiscencia organica: El uso de shadowBlur no es constante; decidi vincularlo directamente a la energia sonora. De esta forma, la luz no es un decorado, sino una prueba de vida: las medusas solo brillan cuando escuchan la musica
+
++ Suavizado de reaccion: Para evitar movimientos bruscos o parpadeos que rompieran la inmersion, se aplico una interpolacion lineal (lerp). Esto hace que la expansion y el brillo de las medusas se sientan como una respiracion biologica y natural
 
 ✍️Mapa de interpretación   
 La interaccion no es aleatoria, ya que el usuario dirige el ecosistema
