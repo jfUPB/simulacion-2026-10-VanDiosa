@@ -146,6 +146,41 @@ Pienso que funcionaria muy bien con una cancion que tenga una estructura con muc
 + Euforica -> Flocking, con alta cohesion y alineacion, para que hagan giros rapidos que proyecten como fuerza colectiva y union
 
 ## Bitácora de aplicación 
+### Actividad 06 - Crystal Jellyfish 🪼
+
+✍️Concepto visual   
+El concepto se basa en la dualidad de la letra de la cancion Sea de BTS, donde el desierto y el mar se entrelazan. Con la pieza visual busco representar el ecosistema de las medusas cristalinas que habitan en el oceano profundo y abisal. Quiero que el sistema utilice un Flow Field (Campo de Flujo) para simular corrientes marinas invisibles y un comportamiento de separacion para darles autonomia y vida propia
+
+La medusas -> No quiero que sean circulos si no una especie de semicirculo o de sombrilla, que se pueda contraer y expandir ritmicamente. Ademas que no sea solo la cabeza si no que posean tentaculos, y vayan dejando un leve rastro de su trayectoria
+
+El oceano -> Quiero que sea oscuro y denso, que se sienta como con bastante friccion por la presion al estar en lo profundo
+
+✍️Relación entre la visual y la canción   
+La idea es que la pieza no sea solo un fondo bonito, si no, que tenga coherencia con la letra de la cancion, con su arco narrativo. Quiero que la respiracion de las medusas este sincronizado con la cancion, y que los cambios de frecuencias alteren la transparecio, brillo o color de estas, haciendo parecer que cuando cantan brillan y cuando no, estan apagadas
+
+✍️Moodboard o referencias
+<img width="1920" height="1080" alt="Moodboard" src="https://github.com/user-attachments/assets/5a4c2e4b-1ef8-4a68-9d2e-42d4dee8f0dd" />
 
 
+✍️Bocetos
+
+✍️Mapa de decisiones
+
+✍️Mapa de interpretación   
+La interaccion no es aleatoria, ya que el usuario dirige el ecosistema
++ El despertar del oceano al darle el click inicial, genera q el sistema cobre vida
++ Con el mouse se actua como una fuerza externa (marea), que altera el flow field. De esta forma se pueden agrupar o dispersar a las medusas segun la intencion de la parte de la cancion que este sonando
+
+✍️Justificación del algoritmo elegido
+
+✍️Explicación de la relación audio-visual
+
+🤖 Evidencia del uso de IA
+
+✍️Código fuente
+
+🌟[Sketch](https://editor.p5js.org/VanDiosa/sketches/fFCxRD9qX)
+🌟[Pantalla Completa](https://editor.p5js.org/VanDiosa/full/fFCxRD9qX)
+
+📸Capturas
 ## Bitácora de reflexión
