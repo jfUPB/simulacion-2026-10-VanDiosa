@@ -31,6 +31,27 @@ Ji Lee busca reforzar el significado porque obliga al ojo a no solo leer la pala
 ✍️Palabra seleccionada   
 La palabra que mas me interesa desarrollar es "FRAGIL". Elegi esta ya que presenta un reto de precision y tension, donde el usuario debe interactuar con extremo cuidado; si la comparo con las otras palabras que son mas atmosfericas, pienso que "FRAGIL" es mas desafiante
 
+### Actividad 02    
+📤Luego de estudiar el capitulo del libro relacionado con [Matter.js](https://natureofcode.com/physics-libraries/)    
+
+✍️Explica con tus palabras qué hace cada uno de esos conceptos:    
++ Engine: Motor -> Es el cerebro que calcula la fisica. No se ve fisicamente, pero el toma decisiones cuadro a cuadro, hacia donde cae cada cosa o como chocan, todo basado en leyes matematicas
++ World: Mundo -> Es el escenario donde todo sucede; en donde se añaden lo objetos y donde existen las fuerzas globales (por ejemplo la gravedad)
++ Bodies: Cuerpos -> Son los objetos fisicos (rectangulos, circulos o formas complejas). Tienen propiedades como masa, friccion, rebote, etc. Sin un cuerpo, una letra es solo un dibujo, ya que el cuerpo le permite ser un objeto que se cae y golpea
++ Constraint (Restriccion) -> Es una cuerda, resorte o clavo que une dos cuerpos, o un cuerpo a un punto fijo
++ MouseConstraint -> Es la herramienta que permite que el usuario pueda manipular el mundo fisico, atraves del cursor puede agarrar, arrastrar y lanzar cuerpos
+
+✍️Replica al menos dos experimentos básicos integrando Matter.js con p5.js    
+
+📎📸Incluye código y capturas o enlaces   
+
+✍️Describe qué tipo de comportamiento físico te interesa explorar en tu palabra    
+Luego de pensar varias opciones, el comportamiento final para FRÁGIL es que, si el usuario no tiene cuidado, la fisica lo "castigue"
+
+Quiero intentar que las letras F-R--G-I-L se vean fragmentadas y que tengan un limite de aguante. El usuario debe colocar la letra A en su lugar; si lo hace con demasiada fuerza, velocidad o sin precisión, el golpe contra las otras letras ocasionara que estas se desmoronen por el impacto
+
+La idea es que la garra (MouseConstraint) no se sienta rigida o estable, sino como si la letra estuviera colgando de un hilo inestable. De esta forma, el usuario se ve obligado a moverse con calma y cautela. En resumen, la fisica de esta pieza debe transmitir la sensación constante de estar a punto de romperse
+
 ## Bitácora de aplicación 
 
 
