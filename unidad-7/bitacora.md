@@ -130,26 +130,31 @@ El sistema usa el microfono para convertir el ruido del entorno en una perturbac
 
 Si el usuario grita o si hay mucho ruido ambiente, la letra empieza a sacudirse con violencia, haciendo que la garra (el mouse) pierda estabilidad. Esta relacion busca que el silencio sea una herramienta de control... para ser preciso y encajar la letra sin destruir el resto de la palabra, el usuario debe dominar no solo su mano, sino también el sonido de su entorno
 
+🤖 Uso de IA como Materializador
+Mi proceso con la IA (Gemini) fue como de una dirección tecnica
++ Concepto propio: Yo defini la narrativa: una estructura incompleta ("F-R-G-I-L") que depende de una pieza aislada ("Á") y una garra de precision. La idea de que el error cause el derrumbe total fue una decision humana de diseño semantico
++ Traducción Tecnica: Use la IA para codificar la fisica compleja en Matter.js y la reactividad del micrófono en p5.js
++ Refinamiento Estetico: Guie a la IA para pulir la tipografia, el desmoronamiento, la fisica de la letra A, la atmosfera,etc... hasta lograr la sensación que buscaba
+
 ✍️Código fuente    
 ```js
-/**
- * ACTIVIDAD 05: FRÁGIL - Fractura Profunda
- */
+// ACTIVIDAD 05: FRÁGIL
 
 let engine, world, letraA, bloques = [];
 let constraintGarra, volDirecto = 0, audioIniciado = false;
 const { Engine, World, Bodies, Constraint, Vector, Body, Events } = Matter;
+let fondoTextura; // Aquí guardaremos el dibujo de la textura
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  noCursor();
+  // ----------------- CONFIGURACIÓN DEL MOTOR -----------------
   engine = Engine.create();
   world = engine.world;
-  world.gravity.y = 1.3;
-  
-  // Ajuste para colisiones más precisas
+  world.gravity.y = 1.3; // Gravedad mas alta para dar la sensacion de que son piedras
   engine.enableSleeping = false; 
 
-  // 1. LÍMITES ULTRA-GRUESOS (Blindaje de 500px)
+  // --------------- LÍMITES DE SEGURIDAD (BLINDAJE) ---------------
   World.add(world, [
     Bodies.rectangle(width/2, height + 250, width, 500, { isStatic: true, label: 'suelo' }),
     Bodies.rectangle(-250, height/2, 500, height * 2, { isStatic: true }), // Pared Izq
@@ -159,39 +164,62 @@ function setup() {
 
   let cx = width / 2;
   let cy = height / 2 + 80;
-
+  
+  // --------------- CONSTRUCCIÓN DE LAS LETRAS FIJAS ---------------
   createLetra(cx - 275, cy - 15, 110, 180, 'F', 0.18);
   createLetra(cx - 165, cy, 110, 180, 'R', -0.06); 
   createLetra(cx + 126, cy, 125, 180, 'G', 0.10); 
   createLetra(cx + 226, cy, 60, 180, 'I', -0.15);
   createLetra(cx + 326, cy, 110, 180, 'L', 0.08);
 
+  // ----------------- EL AGENTE DINÁMICO (LETRA Á) -----------------
   letraA = Bodies.rectangle(width - 200, height - 120, 130, 155, {
     restitution: 0.1, frictionAir: 0.01, density: 0.005, label: 'Á'
   });
   Body.setAngle(letraA, PI/2); 
   World.add(world, letraA);
 
+  // ----------------- GESTOR DE COLISIONES -----------------
   Events.on(engine, 'collisionStart', (event) => {
-    event.pairs.forEach(pair => {
+    event.pairs.forEach(pair => { // Si la letra roja toca a una gris, se activa la fractura
       verificarYQuebrar(pair.bodyA, pair.bodyB);
       verificarYQuebrar(pair.bodyB, pair.bodyA);
     });
   });
+  
+  // --- TEXTURA DE FONDO CON TOQUE ROJIZO ---
+  fondoTextura = createGraphics(width, height);
+  fondoTextura.noStroke();
+  
+  for (let i = 0; i < 50000; i++) { 
+    let x = random(width);
+    let y = random(height);
+    let n = noise(x * 0.01, y * 0.01); // Noise -> Desgaste
+    
+    fondoTextura.fill(255, 200 * n, 200 * n, 40); 
+    
+    // Puntos de diferentes tamaños para que parezca porosidad real
+    let tam = random(2,5);
+    fondoTextura.ellipse(x, y, tam);
+  }
 }
 
 function draw() {
   background(230, 230, 235);
+  image(fondoTextura, 0, 0); // Dibujamos la textura encima del fondo
+  
   Engine.update(engine);
   dibujarMonitorAudio();
   
-  // 2. SEGURO MANUAL: Si la letra intenta fugarse, la devolvemos
+  // SEGURO MANUAL: Si la letra intenta fugarse, la devolvemos
   if (letraA.position.x < 0) Body.setPosition(letraA, { x: 50, y: letraA.position.y });
   if (letraA.position.x > width) Body.setPosition(letraA, { x: width - 50, y: letraA.position.y });
 
+  // Renderizado de todos los elementos
   bloques.forEach(b => dibujarObjeto(b));
   dibujarObjeto(letraA);
 
+  // ----------------- LÓGICA DE LA GARRA (MOUSE) -----------------
   if (constraintGarra) {
     constraintGarra.pointA = { x: mouseX, y: mouseY };
     stroke(100, 150); strokeWeight(1.5);
@@ -199,9 +227,10 @@ function draw() {
     line(mouseX, mouseY, posB.x, posB.y);
   }
 
+  // ----------------- REACTIVIDAD AL AUDIO -----------------
   if (audioIniciado && volDirecto > 0.03) {
-    let s = volDirecto * 45; 
-    Body.applyForce(letraA, letraA.position, { x: random(-s, s), y: random(-s, s) });
+    let s = volDirecto * 45; // Intensidad del temblor
+    Body.applyForce(letraA, letraA.position, { x: random(-s, s), y: random(-s, s) }); // Aplicacion fuerza de vibración
   }
 
   drawGarraPro();
@@ -212,21 +241,24 @@ function dibujarObjeto(b) {
   translate(b.position.x, b.position.y);
   rotate(b.angle);
   
-  let col = (b.label === 'Á' || b.parentTxt === 'Á') ? color(190, 50, 50) : color(110, 115, 120);
+  let col = (b.label === 'Á' || b.parentTxt === 'Á') ? color(190, 50, 50) : color(110, 115, 120); // Definición de color: Rojo para la A y sus restos, gris para el resto
 
   if (b.label === 'fragmento') {
     fill(col); noStroke();
     beginShape();
-    // Dibujamos usando los vértices reales del cuerpo para que la forma sea exacta
+    // Dibujamos usando los vértices reales del cuerpo para que la forma sea mas realista
     b.vertices.forEach(v => vertex(v.x - b.position.x, v.y - b.position.y));
     endShape(CLOSE);
   } else {
+    // Dibujo de letras completas con efecto de sombra/volumen
     textAlign(CENTER, CENTER); textFont('Arial Black'); textSize(180);
     fill(red(col)-60, green(col)-60, blue(col)-60);
-    text(b.label, 7, 9);
+    text(b.label, 7, 9); // Sombra
     fill(col); noStroke();
-    text(b.label, 0, 0);
+    text(b.label, 0, 0); // Cara de adelante
 
+    // ESTÉTICA DE GRIETAS: Se usa el ID del cuerpo para que la lineas seas únicas y fijas
+    randomSeed(b.id);
     randomSeed(b.id);
     stroke(255, 140); 
     for(let i=0; i<8; i++) {
@@ -238,11 +270,11 @@ function dibujarObjeto(b) {
   pop();
 }
 
-function verificarYQuebrar(objA, objB) {
+function verificarYQuebrar(objA, objB) { // Logica de colision
   if (objA.label === 'Á' && objB.isStatic && objB.label !== 'fragmento' && objB.label !== 'soporte' && objB.label !== 'suelo') {
     for (let i = bloques.length - 1; i >= 0; i--) {
       if (bloques[i] === objB) {
-        generarFragmentosPoligonales(objB);
+        generarFragmentosPoligonales(objB); // Transformacion de letra a fragmentos
         bloques.splice(i, 1);
         World.remove(world, objB);
       }
@@ -250,7 +282,7 @@ function verificarYQuebrar(objA, objB) {
   }
 }
 
-function generarFragmentosPoligonales(body) {
+function generarFragmentosPoligonales(body) { //Subdivision de las letras por un matriz de pedazos irregulares
   let div = 5; 
   let w = body.w / div;
   let h = body.h / div;
@@ -260,7 +292,7 @@ function generarFragmentosPoligonales(body) {
       let ox = (j - div/2) * w;
       let oy = (i - div/2) * h;
       
-      // Vértices irregulares
+      // Vértices irregulares, apariencia de piedra rota
       let puntos = [
         { x: ox - w/2 + random(-8, 8), y: oy - h/2 + random(-8, 8) },
         { x: ox + w/2 + random(-8, 8), y: oy - h/2 + random(-8, 8) },
@@ -275,7 +307,7 @@ function generarFragmentosPoligonales(body) {
       if (p) {
         p.label = 'fragmento';
         p.parentTxt = body.label;
-        Body.setVelocity(p, { x: random(-4, 4), y: random(-4, 2) });
+        Body.setVelocity(p, { x: random(-4, 4), y: random(-4, 2) }); // Impulso de explosion
         World.add(world, p);
         bloques.push(p);
       }
@@ -283,7 +315,7 @@ function generarFragmentosPoligonales(body) {
   }
 }
 
-// Funciones de soporte
+// -------------- FUNCIONES DE INTERACCIÓN Y SOPORTE --------------
 function createLetra(x, y, w, h, label, angle) {
   let b = Bodies.rectangle(x, y, w, h, { isStatic: true, label: label });
   b.w = w; b.h = h; Body.setAngle(b, angle);
@@ -293,7 +325,7 @@ function createLetra(x, y, w, h, label, angle) {
 function mousePressed() {
   if (!audioIniciado) activarAudio();
   let mouseVec = { x: mouseX, y: mouseY };
-  if (Matter.Bounds.contains(letraA.bounds, mouseVec)) {
+  if (Matter.Bounds.contains(letraA.bounds, mouseVec)) { // Si el mouse toca la "A" la agarra
     let offset = Vector.sub(mouseVec, letraA.position);
     let rotatedOffset = Vector.rotate(offset, -letraA.angle);
     constraintGarra = Constraint.create({
@@ -308,7 +340,7 @@ function mouseReleased() {
   if (constraintGarra) { World.remove(world, constraintGarra); constraintGarra = null; letraA.friction = 0.5; }
 }
 
-function drawGarraPro() {
+function drawGarraPro() { // Dibujo estetico de la garra
   push(); translate(mouseX, mouseY);
   stroke(60); strokeWeight(2); line(0, -mouseY, 0, -20);
   rectMode(CENTER); fill(80, 85, 95); noStroke(); rect(0, -15, 45, 25, 4);
@@ -318,13 +350,13 @@ function drawGarraPro() {
   pop();
 }
 
-function dibujarMonitorAudio() {
+function dibujarMonitorAudio() { // Barra visual sutil para saber que el microfono esta uncionando
   push(); fill(100, 30); noStroke(); rect(width-110, 20, 90, 15, 4);
   if (audioIniciado) { fill(100, 150, 255, 180); rect(width-110, 20, map(volDirecto, 0, 0.4, 0, 90), 15, 4); }
   pop();
 }
 
-async function activarAudio() {
+async function activarAudio() { // Flujo de entrada microfono
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const source = audioCtx.createMediaStreamSource(stream);
@@ -333,7 +365,7 @@ async function activarAudio() {
   processor.onaudioprocess = (e) => {
     let input = e.inputBuffer.getChannelData(0);
     let sum = 0; for (let v of input) sum += v*v;
-    volDirecto = Math.sqrt(sum / input.length);
+    volDirecto = Math.sqrt(sum / input.length); // Calculo de la amplitud
   };
   audioIniciado = true;
 }
@@ -344,12 +376,11 @@ async function activarAudio() {
 
 📸Capturas o registros de la pieza.
 <img width="941" height="732" alt="ACT 5 1" src="https://github.com/user-attachments/assets/b4662162-94fb-4b06-b4b8-a3ff2d71f076" />
-
 .
 <img width="954" height="728" alt="ACT 5 2" src="https://github.com/user-attachments/assets/a61690f3-96df-4da2-bc4b-15f50989ff38" />
-
 .
 <img width="944" height="723" alt="ACT 5 3" src="https://github.com/user-attachments/assets/34065836-9eb5-4559-8658-8d0e376092ce" />
+Agregue un poquito de textura al fondo:    
+<img width="1919" height="792" alt="ACT 5 4" src="https://github.com/user-attachments/assets/e75203e7-0af2-4dea-a83d-53a56eb94ed9" />
 
-.
 ## Bitácora de reflexión
