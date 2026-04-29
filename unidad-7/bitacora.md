@@ -95,13 +95,17 @@ Implemente un umbral (volDirecto > 0.06) para que el sistema ignore el ruido de 
 
 
 ## Bitácora de aplicación 
-### Actividad 05 - FRÁGIL: Fractura Profunda 🪨🔨    
+### Actividad 05 - FRÁGIL🪨🔨    
 ✍️Palabra elegida    
 FRÁGIL   
 
-✍️Justificación conceptual
+✍️Justificación conceptual     
+Elegi FRÁGIL porque me parecio interesante mostrar que las cosas que parecen duras (como unas letras de piedra) se pueden romper en un segundo. La idea es que no todo lo que es solido es fuerte; si le das un golpe mal dado o si hay mucho ruido alrededor, la estructura no aguanta y se desmorona. Es una forma de decirle al usuario que tiene que tener cuidado, porque una vez que algo se rompe, ya no vuelve a ser igual
 
-✍️Análisis de su significado visual y comportamental.
+✍️Análisis de su significado visual y comportamental     
++ Visual -> Use letras gruesas y grises para que parezcan bloques de concreto o piedra. Les puse grietas para que se note que ya están fracturadas y que cualquier golpe las va a terminar de dañar. La letra "A" es roja para que resalte y el usuario sepa que esa es la que tiene que agarrar. Y ademas le quise añadir un toque como de profunidad, por eso se ven como dobles las letras
+
++ Comportamiento -> Use fisica para que las letras tengan peso. Lo más importante es el momento de desmoronarse, las letras estan estaticas pero apenas la letra "A" las toca con fuerza, dejan de estar fijas y se convierten en un monton de pedacitos que se caen por la gravedad
 
 ✍️Moodboard o referencias    
 <img width="1920" height="1080" alt="MOODBOARDU7" src="https://github.com/user-attachments/assets/7a5c16d9-a978-429f-8121-952f663338c5" />
@@ -110,18 +114,21 @@ FRÁGIL
 <img width="2480" height="1004" alt="ACT1 DIBUJOS - copia" src="https://github.com/user-attachments/assets/f13eca65-43dc-497d-acff-67f0d39aa321" />
 
 ✍️Mapa de decisiones     
-
++ Paredes invisibles: Le puse limites muy gruesos a los lados para que la letra no se salga de la pantalla si el usuario la tira muy duro. Asi el juego no se daña y la letra siempre se queda adentro del canva
++ Fragmentos irregulares: En lugar de que la letra se rompa en cuadritos perfectos (que se veía muy falso y poco estetico), hice que se rompa en pedazos de diferentes formas y puntas, como si fuera escombro de verdad
++ Letras con memoria: Hice que las grietas de las letras siempre sean las mismas y no cambien cada vez que se mueve el dibujo. Así parece que la letra de verdad esta rajada desde el principio
++ Uso del color: Decidí que solo la letra "A" fuera roja y las demas grises. Es una forma simple de decirle al usuario que esa es la que puede mover
 
 ✍️Mapa de interpretación    
 + La Garra: Representa la manipulacin externa o el control. El usuario tiene el poder de decidir cuando y donde aplicar la fuerza
-+ La Letra Á: Funciona como el catalizador del caos. Su color rojo vibrante contrasta con el gris de las demas, marcandola como un objeto de peligro o energia pura
-+ El Colapso: La destruccion de las letras fijas representan una perdida de la estructura
-+ La Voz como Vibración: El volumen capturado por el microfono no se interpreta como musica, sino como energia. Se convierte el sonido en una fuerza invisible que puede desestabilizar la letra A, interpretando la voz como una herramienta de caos que pone a prueba la resistencia de lo que parecia seguro
++ La Letra Á: Es la que tiene el poder de armar la palabra o de destruirla por completo. Funciona como el catalizador del caos. Su color rojo  contrasta con el gris de las demas, marcandola como un objeto de peligro o energia pura
++ El Colapso: Cuando todo se cae, representa que la precisión fallo. Es el castigo fisico por no tener cuidado
++ La Voz como Vibración: El microfono capta el volumen y hace que la letra "A" vibre. Si hay mucho ruido, la letra se sacude tanto que es casi imposible ponerla en su lugar sin romper todo. Es como intentar armar un rompecabezas en medio de un terremoto
 
 ✍️Explicación de la relación entre audio y comportamiento    
-El volumen capturado (volDirecto) se traduce en un vector de fuerza aleatorio aplicado al centro de masa de la letra roja. A mayor volumen, la letra se sacude con más violencia
+El sistema usa el microfono para convertir el ruido del entorno en una perturbación fisica. El dato del volumen (volDirecto) se mapea para aplicar fuerzas aleatorias (applyForce) directamente sobre la letra "A"
 
-🤖Evidencia del uso de IA.
+Si el usuario grita o si hay mucho ruido ambiente, la letra empieza a sacudirse con violencia, haciendo que la garra (el mouse) pierda estabilidad. Esta relacion busca que el silencio sea una herramienta de control... para ser preciso y encajar la letra sin destruir el resto de la palabra, el usuario debe dominar no solo su mano, sino también el sonido de su entorno
 
 ✍️Código fuente    
 ```js
@@ -338,11 +345,11 @@ async function activarAudio() {
 📸Capturas o registros de la pieza.
 <img width="941" height="732" alt="ACT 5 1" src="https://github.com/user-attachments/assets/b4662162-94fb-4b06-b4b8-a3ff2d71f076" />
 
--
+.
 <img width="954" height="728" alt="ACT 5 2" src="https://github.com/user-attachments/assets/a61690f3-96df-4da2-bc4b-15f50989ff38" />
 
--
+.
 <img width="944" height="723" alt="ACT 5 3" src="https://github.com/user-attachments/assets/34065836-9eb5-4559-8658-8d0e376092ce" />
 
--
+.
 ## Bitácora de reflexión
