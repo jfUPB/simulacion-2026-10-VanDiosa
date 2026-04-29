@@ -64,8 +64,35 @@ Pense para mayor inmersion, pense en utilizar la amplitud (captada por el microf
 
 De esta forma si el lugar esta en silencio, el nivel de complejidad para colocarla sera el normal/basico. Pero, si el microfono detecta picos de amplitud (un aplauso, un grito o musica fuerte), esa energia producira un temblor fisico aplicado a la letra
 
-¿Por que este dato?
+¿Por que este dato?   
 Porque añade una capa de dificultad a la pieza. El usuario no solo tiene que ser preciso con la mano (mouse), sino que debe guardar silencio o controlar el entorno sonoro para que la letra no vibre demasiado. Si hay mucho ruido, la letra A temblara tanto que sera mas dificil encajarla sin golpear y destruir el resto de la palabra. Quiero dar a entender que la fragilidad no se encuentra solo en el objeto si no en el entorno en el que existe
+
+### Actividad 04   
+🔗 Muestra una prueba inicial   
+[Sketch prueba](https://editor.p5js.org/VanDiosa/sketches/GsfldQElj)
+
+<img width="475" alt="ACT4 1" src="https://github.com/user-attachments/assets/728749ff-96bf-4653-8854-af4050dfb65e" />
+<img width="475" alt="ACT4 2" src="https://github.com/user-attachments/assets/96209535-bf49-4e05-9720-397bf1789def" />
+
+
+✍️Explica qué parte de la palabra construiste    
+Para esta exploracion, me queria enfocar en la respuesta al audio con sentido semantico. Especificamente construi la letra A (sencilla), mientras que el resto de las letras estan representadas por bloques rectangulares estaticos
+
+✍️Explica qué propiedad física manipulaste   
+He manipulado tres propiedades clave de los cuerpos en Matter.js:
++ FrictionAir (Fricción de aire): La configure en un valor de 0.05 para que el movimiento de la letra no sea tan constante, dandole una sensación de peso y resistencia
++ Restitution (Rebote): Ajustada en 0.5 para que las colisiones no sean elasticas, sino que la letra pierda energia al chocar, reforzando la idea de algo que se golpea y se detiene
++ isStatic: Los bloques secundarios inician con esta propiedad en true para que parezcan solidos, pero se cambia a false tras recibir un impacto de la letra "A" con suficiente velocidad
+
+✍️Explica qué aspecto del audio afecta qué comportamiento    
+Utilice la Amplitud (volumen) capturada directamente desde el microfono. El nivel de volumen se mapea para generar impulsos de fuerza (vectorial) en direcciones aleatorias mediante el comando applyForce
+
+Implemente un umbral (volDirecto > 0.06) para que el sistema ignore el ruido de fondo y solo reaccione a sonidos intencionales como la voz, haciendo que la letra vibre proporcionalmente a la intensidad del grito o el habla
+
+✍️Evalúa qué funcionó y qué no para el significado que quieres construir    
++ Lo que funciono -> La integracion de la fisica con el audio es exitosa. La letra reacciona cuando hay ruido, lo cual transmite perfectamente el concepto de fragilidad ante el entorno. El uso de un limitador de velocidad fue clave para que la pieza no se enloqueciera visualmente y se mantuviera dentro del canvas
++ Lo que NO funciono -> Al principio, el microfono no detectaba nada y la letra no se movia. Al intentar arreglarlo, se volvio tan sensible que cualquier ruido pequeño (como roces) hacia que la letra saliera disparada fuera de la pantalla. Me tomo varias pruebas para lograr que se se viera bien, tenia que limitar la velocidad de la letra y filtrar los ruidos de fondo, para que el movimiento fuera una vibracion tensa y no un error donde la pieza simplemente desapareciera de la pantalla
+
 
 ## Bitácora de aplicación 
 
