@@ -52,6 +52,21 @@ Quiero intentar que las letras F-R--G-I-L se vean fragmentadas y que tengan un l
 
 La idea es que la garra (MouseConstraint) no se sienta rigida o estable, sino como si la letra estuviera colgando de un hilo inestable. De esta forma, el usuario se ve obligado a moverse con calma y cautela. En resumen, la fisica de esta pieza debe transmitir la sensación constante de estar a punto de romperse
 
+### Actividad 03    
+✍️Realiza al menos dos experimentos simples de audio-reactividad   
+
+✍️Explica qué dato estás leyendo del audio    
+
+✍️Explica qué comportamiento visual o físico activa ese dato   
+
+✍️Describe qué tipo de respuesta sonora te serviría más para tu palabra y por qué   
+Pense para mayor inmersion, pense en utilizar la amplitud (captada por el microfono) del sonido ambiente como fuente de perturbacion, que sea como una vibracion fisica sobre la letra A
+
+De esta forma si el lugar esta en silencio, el nivel de complejidad para colocarla sera el normal/basico. Pero, si el microfono detecta picos de amplitud (un aplauso, un grito o musica fuerte), esa energia producira un temblor fisico aplicado a la letra
+
+¿Por que este dato?
+Porque añade una capa de dificultad a la pieza. El usuario no solo tiene que ser preciso con la mano (mouse), sino que debe guardar silencio o controlar el entorno sonoro para que la letra no vibre demasiado. Si hay mucho ruido, la letra A temblara tanto que sera mas dificil encajarla sin golpear y destruir el resto de la palabra. Quiero dar a entender que la fragilidad no se encuentra solo en el objeto si no en el entorno en el que existe
+
 ## Bitácora de aplicación 
 
 
