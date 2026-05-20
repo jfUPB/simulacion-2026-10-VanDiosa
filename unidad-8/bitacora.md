@@ -15,10 +15,32 @@ Como estudiante de IDED, los efectos visuales y contenidos de arte generativos s
 [🔗](https://www.youtube.com/watch?v=DfLIDHAQFDM)
 <img width="289" height="271" alt="image" src="https://github.com/user-attachments/assets/426421b3-9eb9-4aa3-99ee-f8521e61f165" />
 
-✍️Explica qué te interesa de esos referentes
-
+✍️Explica qué te interesa de esos referentes     
+Me intereso el como se ve tan controlado el movimiento, muy coordinado. Siempre me a parecido interesante que BLENDER logre procesar tanta informacion, y que al mismo tiempo logre crear piezas muy limpias, futuristas y esteticas, en los referentes se nota que no es una animacion frame a frame si no que esta guiado por una logica
 
 ✍️Propón uno o dos posibles contextos profesionales para tu pieza final
++ Un visualizer abstracto para el lanzamiento de una cancion o un proyecto musical en general, que se pueda usar en plataformas digital
++ Arte generativo como marketing digital, que sirva para promocionar tecnologia, eventos, buscar captar la atencion a traves del movimiento de las particulas
+
+### Actividad 02   
+✍️Indica qué sistema del curso vas a transferir     
+Voy a transferir el sistema de comportamiento colectivo (flocking) y simulación de movimiento basado en agentes autonomos que interactuan en grupo
+
+✍️Explica brevemente cómo funcionaba ese sistema en p5.js        
+En p5.js el sistema funcionaba escribiendo lineas de codigo imperativo. Creabamos una clase para las particulas (agentes) con propiedades de posición, velocidad y aceleración, y controlabamos su movimiento aplicando fuerzas matematicas en un plano completamente plano y bidimensional (2D)
+
+✍️Justifica por qué quieres transferirlo a la herramienta elegida     
+Quiero transferirlo a Blender porque en p5.js me quedee muy en el 2D y quisiera experimentar el como cambia ese comportamiento de grupo al pasar al espacio tridimensional. Ademas, me interesa explorar como reaccionan las particulas con luces y acabados mas esteticos que sirvan para proyectos de mi perfil profesional
+
+✍️Explica qué tipo de pieza visual te imaginas construir con esa combinación    
+Me imagino una especie de music visualizer abstracto en 3D. La idea es que las particulas formen una estructura geometrica o una malla volumetrica en el espacio, y que el ritmo o las frecuencias de una canción funcionen como la fuerza que altere el movimiento del grupo, logrando que reaccionen y generen ondas de forma colectiva
+
+✍️Señala qué dificultades técnicas anticipas
+El principal problema que preveo es con el rendimiento de mi pc al procesar miles de particulas al mismo tiempo, o que el riesgo de que el audio se desfase con la animación en el viewport, lograr que el motor de renderizado procese los colores neón con buen contraste sin que se vean lavados
+
+### Actividad 03   
+
+### Actividad 04
 
 ## Bitácora de aplicación 
 ### Actividad 05: Visualizer   
@@ -84,6 +106,8 @@ Proceso:
 [Final](https://www.youtube.com/watch?v=FYGWzzakdHw)
 <img width="1920" height="1080" alt="final" src="https://github.com/user-attachments/assets/4cc43bfc-3eea-478f-acb1-0bbdec79dd60" />
 
+
+[Video en Drive](https://upbeduco-my.sharepoint.com/:v:/g/personal/vanesa_herrera_upb_edu_co/IQBfQnG2WFazRLz-MMGr1xdqAYkYNBu8yUKSSOlj9TKto3U?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=kK2tA0)
 
 
 ## Bitácora de reflexión
