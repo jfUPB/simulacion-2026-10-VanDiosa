@@ -86,6 +86,7 @@ La IA la use para solucionar problemas con el redimiento tanto del viewport como
 Las decisiones del concepto de parlante, centar el analisis de audio en los bajos, los colores, y la seleccion de la musica, fueron totalmente mias
 
 🌟Código, archivo, proyecto o documentación técnica según la herramienta      
+Use dos archivos de BLENDER, el primero para generar toda la pieza, y luego exportar los frames; el segundo para agarrar los 3711 png y generar el video
 Geometry Nodes:     
 <img width="959" height="503" alt="GEOMETRYNODES" src="https://github.com/user-attachments/assets/662fad38-afd1-4d0e-a832-75e91b777941" />
 Shader Bolitas:     
@@ -94,6 +95,10 @@ Shader Suelo:
 <img width="571" height="275" alt="SHADERSUELO" src="https://github.com/user-attachments/assets/d266433b-f850-4fe4-9e33-6f9f9c65cd9a" />
 Compositing:    
 <img width="410" height="328" alt="COMPOSITING" src="https://github.com/user-attachments/assets/6c944c58-26a5-4313-af09-fa4d70dcb06f" />
+
+Exportar video:    
+<img width="958" height="504" alt="image" src="https://github.com/user-attachments/assets/c5bfdc7a-70cd-43da-8d37-2caee08681ec" />
+
 
 📸Registro visual de la pieza    
 Proceso:   
